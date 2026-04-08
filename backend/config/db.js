@@ -1,18 +1,21 @@
+// backend/config/db.js
 const mysql = require("mysql2");
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
   host: "localhost",
-  user: "root",
-  password: "mysqlnitish01",   // your MySQL password
+  user: "root",       // your MySQL username
+  password: "mysqlnitish01",       // your MySQL password
   database: "smart_campus_hub"
 });
 
-db.connect((err) => {
-  if (err) {
-    console.error("Database connection failed:", err);
-  } else {
-    console.log("Connected to MySQL database");
-  }
+// Test connection
+db.getConnection((err, connection) => {
+    if(err) {
+        console.error("❌ MySQL connection failed:", err.message);
+    } else {
+        console.log("✅ MySQL connected successfully!");
+        connection.release(); // release the connection back to pool
+    }
 });
 
 module.exports = db;

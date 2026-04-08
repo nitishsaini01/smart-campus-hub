@@ -1,16 +1,27 @@
+// backend/server.js
 const express = require("express");
 const cors = require("cors");
-const db = require("./config/db");
+const path = require("path");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 
+// Serve frontend static files (CSS, JS)
+app.use("/static", express.static(path.join(__dirname, "../frontend")));
+
+// API routes
+app.use("/api", authRoutes);
+
+// Serve login page
 app.get("/", (req, res) => {
-  res.send("Smart Campus Hub API Running");
+    res.sendFile(path.join(__dirname, "../frontend/login.html"));
 });
 
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
 });
