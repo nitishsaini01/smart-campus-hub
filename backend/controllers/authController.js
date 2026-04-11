@@ -1,23 +1,31 @@
-// backend/controllers/authController.js
-const db = require("../config/db");
+const pool = require("../config/db");
 
-// Login function
-exports.login = (req, res) => {
-    const { email, password } = req.body;
+exports.login = async (req,res)=>{
 
-    if (!email || !password) {
-        return res.status(400).json({ message: "All fields required" });
-    }
+const {email,password} = req.body;
 
-    const sql = "SELECT * FROM users WHERE email=? AND password=?";
-    db.query(sql, [email, password], (err, results) => {
-        if (err) return res.status(500).json({ message: "Server error" });
+const [rows] = await pool.query(
+"SELECT * FROM users WHERE email=? AND password=?",
+[email,password]
+);
 
-        if (results.length > 0) {
-            const user = results[0];
-            res.json({ message: "Login successful", user });
-        } else {
-            res.status(401).json({ message: "Invalid email or password" });
-        }
-    });
+if(rows.length > 0){
+
+const user = rows[0];
+
+res.json({
+success:true,
+role:user.role,
+userId:user.id
+});
+
+}else{
+
+res.json({
+success:false,
+message:"Invalid credentials"
+});
+
+}
+
 };

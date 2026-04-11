@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../config/db");
 
-router.get("/resources", (req, res) => {
-    db.query("SELECT * FROM resources", (err, results) => {
-        if(err) return res.status(500).json({ message: "DB error" });
-        res.json(results);
-    });
-});
+const resourceController = require("../controllers/resourceController");
+const upload = require("../controllers/uploadController"); // multer
+
+router.get("/", resourceController.getResources);
+router.post("/", resourceController.addResource);
+
+// POST /upload with file
+router.post("/upload", upload.single("file"), resourceController.uploadResource);
 
 module.exports = router;

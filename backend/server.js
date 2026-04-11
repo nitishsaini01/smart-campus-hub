@@ -1,32 +1,50 @@
-// backend/server.js
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+
 const authRoutes = require("./routes/authRoutes");
+const resourceRoutes = require("./routes/resourceRoutes");
+const pool = require("./config/db");
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Serve frontend static files (CSS, JS)
-app.use("/static", express.static(path.join(__dirname, "../frontend")));
+/* ---------- MYSQL CONNECTION ---------- */
 
-// API routes
-app.use("/api", authRoutes);
-const statsRoutes = require("./routes/statsRoutes");
-app.use("/api", statsRoutes);
-
-// Serve login page
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend/login.html"));
+pool.getConnection()
+.then(conn => {
+console.log("✅ MySQL Connected");
+conn.release();
+})
+.catch(err => {
+console.error("❌ MySQL Error:", err);
 });
 
-const resourceRoutes = require("./routes/resourceRoutes");
-app.use("/api", resourceRoutes);
+/* ---------- STATIC FILES ---------- */
+
+app.use(express.static(path.join(__dirname, "../frontend")));
+
+/* ---------- UPLOAD FOLDER ---------- */
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+/* ---------- ROUTES ---------- */
+
+app.use("/api", authRoutes);
+app.use("/api/resources", resourceRoutes);
+
+/* ---------- DEFAULT PAGE ---------- */
+
+app.get("/", (req, res) => {
+res.sendFile(path.join(__dirname, "../frontend/login.html"));
+});
+
+/* ---------- SERVER ---------- */
 
 const PORT = 3000;
+
 app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
