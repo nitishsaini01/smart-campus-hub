@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Students</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="sidebar">
+        <h2>Smart Campus</h2>
+
+        <a href="dashboard.html">Dashboard</a>
+        <a href="resources.html">Resources</a>
+        <a href="upload.html">Upload</a>
+        <a href="students.html">Students</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </div>
+
+    <div class="main">
+        <h1>Students List</h1>
+
+       <table class="student-table">
+
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th id="actionHeader">Action</th>
+        </tr>
+    </thead>
+
+    <tbody id="studentsTable"></tbody>
+
+</table>
+    </div>
+
+</div>
+
+<script src="/js/students.js"></script>
+
+</body>
+</html>

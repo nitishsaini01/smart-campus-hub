@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Smart Campus Hub</title>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="sidebar">
+<h2>Smart Campus</h2>
+
+<a href="#" onclick="showDashboard()">Dashboard</a>
+<a href="resources.html">Resources</a>
+<a href="upload.html">Upload Resource</a>
+<a href="students.html">Students</a>
+<a href="#" onclick="showAdmin()">Admin Panel</a>
+<a href="#" onclick="logout()">Logout</a>
+
+</div>
+
+<div class="main">
+
+<h1>Dashboard</h1>
+
+<div class="cards">
+
+<div class="card">
+<i class="fa-solid fa-folder"></i>
+<h3>Total Resources</h3>
+<p id="totalResources">0</p>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-building"></i>
+<h3>Departments</h3>
+<p>5</p>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-users"></i>
+<h3>Users</h3>
+<p>120</p>
+</div>
+
+<div id="adminPanel" style="display:none; margin-top:40px;">
+
+<h2>Manage Resources</h2>
+
+<table class="resource-table">
+<thead>
+<tr>
+<th>Title</th>
+<th>Description</th>
+<th>Uploaded By</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="adminResources"></tbody>
+
+</table>
+
+</div>
+
+<h2>Recent Resources</h2>
+
+<table class="resource-table">
+<thead>
+<tr>
+<th>Title</th>
+<th>Description</th>
+<th>Uploaded By</th>
+</tr>
+</thead>
+
+<tbody id="recentResources"></tbody>
+
+</table>
+
+
+</div>
+
+</div>
+
+<script src="/js/dashboard.js"></script>
+</body>
+</html>

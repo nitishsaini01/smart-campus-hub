@@ -34,6 +34,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/api", authRoutes);
 app.use("/api/resources", resourceRoutes);
+app.use("/api/students", require("./routes/studentRoutes"));
 
 /* ---------- DEFAULT PAGE ---------- */
 
@@ -48,3 +49,4 @@ const PORT = 3000;
 app.listen(PORT, () => {
 console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
+

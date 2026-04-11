@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>College Resources</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<div class="navbar">
+<a href="/dashboard.html">Dashboard</a>
+<a href="/resources.html">Resources</a>
+<a href="/">Logout</a>
+</div>
+
+<h1>College Resources</h1>
+
+<input type="text" id="search" placeholder="Search resources...">
+
+<button onclick="window.location.href='/upload.html'">
+Upload Resource
+</button>
+
+<div id="resourceList"></div>
+
+<script src="/js/dashboard.js"></script>
+
+<script>
+const search = document.getElementById("search");
+
+search.addEventListener("keyup", function(){
+    const value = search.value.toLowerCase();
+    const resources = document.querySelectorAll(".resource");
+
+    resources.forEach(r=>{
+        const text = r.innerText.toLowerCase();
+
+        if(text.includes(value)){
+            r.style.display = "block";
+        }else{
+            r.style.display = "none";
+        }
+    });
+});
+</script>
+
+</body>
+</html>

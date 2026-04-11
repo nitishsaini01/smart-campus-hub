@@ -1,0 +1,506 @@
+/* ===== Global Reset ===== */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body{
+background: linear-gradient(135deg,#eef2ff,#f8fafc);
+min-height:100vh;
+color:#333;
+text-align:center;
+}
+
+/* ===== Headings ===== */
+
+h1{
+font-size:32px;
+margin-top:30px;
+color:#1e293b;
+}
+
+h2{
+font-size:24px;
+margin-bottom:20px;
+color:#334155;
+}
+
+/* ===== Login Form ===== */
+
+form{
+background:white;
+padding:35px;
+width:340px;
+margin:90px auto;
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
+transition:0.3s;
+}
+
+form:hover{
+transform:translateY(-3px);
+box-shadow:0 15px 35px rgba(0,0,0,0.15);
+}
+
+/* ===== Inputs ===== */
+
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:1px solid #ddd;
+border-radius:6px;
+font-size:14px;
+transition:0.2s;
+}
+
+input:focus{
+outline:none;
+border-color:#2563eb;
+box-shadow:0 0 5px rgba(37,99,235,0.4);
+}
+
+/* ===== Buttons ===== */
+
+button{
+padding:12px 20px;
+background: linear-gradient(135deg,#2563eb,#4f46e5);
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+font-size:15px;
+font-weight:500;
+transition:0.3s;
+}
+
+button:hover{
+background: linear-gradient(135deg,#1d4ed8,#4338ca);
+transform:translateY(-1px);
+}
+
+/* ===== Dashboard Card ===== */
+
+.card{
+background:white;
+padding:25px;
+margin:30px auto;
+width:280px;
+border-radius:12px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+box-shadow:0 15px 30px rgba(0,0,0,0.12);
+}
+
+.card h3{
+margin-bottom:10px;
+color:#1e293b;
+}
+
+.card p{
+color:#64748b;
+font-size:14px;
+margin-bottom:15px;
+}
+
+/* ===== Links ===== */
+
+a{
+text-decoration:none;
+}
+
+/* ===== Resource Section ===== */
+
+#resourceList{
+width:70%;
+max-width:800px;
+margin:40px auto;
+}
+
+/* Resource Cards */
+
+#resourceList div{
+background:white;
+padding:20px;
+margin:15px 0;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
+text-align:left;
+transition:0.3s;
+}
+
+#resourceList div:hover{
+transform:translateY(-3px);
+box-shadow:0 10px 25px rgba(0,0,0,0.12);
+}
+
+#resourceList h3{
+color:#1e293b;
+margin-bottom:6px;
+}
+
+#resourceList p{
+color:#64748b;
+font-size:14px;
+margin-bottom:10px;
+}
+
+/* ===== Resource Button ===== */
+
+.resource-btn{
+display:inline-block;
+padding:8px 14px;
+background:#2563eb;
+color:white;
+border-radius:6px;
+font-size:13px;
+}
+
+.resource-btn:hover{
+background:#1d4ed8;
+}
+
+/* ===== Navbar (future use) ===== */
+
+.navbar{
+background:#1e293b;
+padding:15px;
+color:white;
+font-size:18px;
+font-weight:600;
+}
+
+/* ===== Footer ===== */
+
+footer{
+margin-top:40px;
+padding:15px;
+font-size:13px;
+color:#64748b;
+}
+
+.container{
+display:flex;
+height:100vh;
+}
+
+.sidebar{
+width:220px;
+background:#1e293b;
+color:white;
+padding:20px;
+}
+
+.sidebar h2{
+margin-bottom:30px;
+}
+
+.sidebar a{
+display:block;
+color:white;
+text-decoration:none;
+margin:10px 0;
+padding:10px;
+border-radius:5px;
+}
+
+.sidebar a:hover{
+background:#334155;
+}
+
+.main{
+flex:1;
+padding:40px;
+background:#f1f5f9;
+}
+
+.cards{
+display:flex;
+gap:20px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+width:200px;
+text-align:center;
+}
+
+.cards{
+display:flex;
+gap:30px;
+margin-top:30px;
+}
+
+.card{
+background:white;
+padding:25px;
+border-radius:12px;
+width:220px;
+text-align:center;
+box-shadow:0 6px 15px rgba(0,0,0,0.1);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+box-shadow:0 10px 20px rgba(0,0,0,0.15);
+}
+
+.card i{
+font-size:28px;
+color:#3b82f6;
+margin-bottom:10px;
+}
+
+.card p{
+font-size:28px;
+font-weight:bold;
+margin-top:10px;
+}
+
+.sidebar{
+width:220px;
+background:#1e293b;
+color:white;
+height:100vh;
+padding:20px;
+position:fixed;
+}
+
+.sidebar a{
+display:block;
+color:#cbd5e1;
+text-decoration:none;
+margin:15px 0;
+font-size:15px;
+}
+
+.sidebar a:hover{
+color:white;
+padding-left:5px;
+transition:0.2s;
+}
+.main{
+margin-left:240px;
+padding:40px;
+}
+
+.cards{
+display:flex;
+gap:30px;
+margin-top:30px;
+flex-wrap:wrap;
+}
+
+.resource-table{
+width:100%;
+margin-top:30px;
+border-collapse:collapse;
+background:white;
+border-radius:10px;
+overflow:hidden;
+box-shadow:0 5px 10px rgba(0,0,0,0.08);
+}
+
+.resource-table th{
+background:#f1f5f9;
+text-align:left;
+padding:12px;
+font-size:14px;
+}
+
+.resource-table td{
+padding:12px;
+border-top:1px solid #eee;
+font-size:14px;
+}
+
+.resource-table tr:hover{
+background:#f9fafb;
+}
+/* ===== Resource Cards (Google Drive Style) ===== */
+
+.resource{
+background:white;
+padding:20px;
+margin:15px 0;
+border-radius:12px;
+box-shadow:0 6px 15px rgba(0,0,0,0.08);
+transition:0.25s;
+text-align:left;
+}
+
+.resource:hover{
+transform:translateY(-4px);
+box-shadow:0 12px 25px rgba(0,0,0,0.15);
+}
+
+.resource h3{
+font-size:18px;
+margin-bottom:6px;
+color:#1e293b;
+}
+
+.resource p{
+font-size:14px;
+color:#64748b;
+margin-bottom:10px;
+}
+
+.resource a{
+display:inline-block;
+padding:7px 12px;
+background:#2563eb;
+color:white;
+border-radius:6px;
+font-size:13px;
+}
+
+.resource a:hover{
+background:#1d4ed8;
+}
+.resource{
+background:white;
+padding:20px;
+margin:15px 0;
+border-radius:10px;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.resource h3{
+margin:0;
+color:#2c3e50;
+}
+
+.resource-btn{
+display:inline-block;
+margin-top:10px;
+padding:8px 14px;
+background:#3498db;
+color:white;
+text-decoration:none;
+border-radius:5px;
+}
+
+.resource-btn:hover{
+background:#2980b9;
+}
+/* ===== Modern Resource Cards ===== */
+
+#resourceList{
+display:grid;
+grid-template-columns: repeat(auto-fill,minmax(250px,1fr));
+gap:20px;
+max-width:900px;
+margin:40px auto;
+}
+
+.resource{
+background:white;
+padding:20px;
+border-radius:12px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+transition:0.25s;
+text-align:left;
+}
+
+.resource:hover{
+transform:translateY(-5px);
+box-shadow:0 15px 30px rgba(0,0,0,0.15);
+}
+
+.resource h3{
+font-size:18px;
+margin-bottom:6px;
+}
+
+.resource p{
+font-size:14px;
+color:#64748b;
+margin-bottom:10px;
+}
+
+.resource-btn{
+display:inline-block;
+padding:8px 14px;
+background:#2563eb;
+color:white;
+border-radius:6px;
+font-size:13px;
+}
+
+.resource-btn:hover{
+background:#1d4ed8;
+}
+
+.navbar{
+background:#1e293b;
+padding:15px;
+display:flex;
+justify-content:center;
+gap:30px;
+}
+
+.navbar a{
+color:white;
+text-decoration:none;
+font-weight:500;
+}
+
+.navbar a:hover{
+text-decoration:underline;
+}
+
+#resourceList{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+gap:20px;
+max-width:1000px;
+margin:40px auto;
+}
+/* STUDENTS TABLE STYLING */
+.student-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.student-table th {
+    background: #4f46e5;
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+.student-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.student-table tr:hover {
+    background: #f3f4f6;
+}
+
+.student-table button {
+    padding: 6px 10px;
+    background: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.student-table button:hover {
+    background: darkred;
+}
