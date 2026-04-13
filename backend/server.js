@@ -4,6 +4,9 @@ const path = require("path");
 
 const authRoutes = require("./routes/authRoutes");
 const resourceRoutes = require("./routes/resourceRoutes");
+const studentRoutes = require("./routes/studentRoutes");
+const departmentRoutes = require("./routes/departmentRoutes"); // NEW
+
 const pool = require("./config/db");
 
 const app = express();
@@ -34,7 +37,8 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/api", authRoutes);
 app.use("/api/resources", resourceRoutes);
-app.use("/api/students", require("./routes/studentRoutes"));
+app.use("/api/students", studentRoutes);
+app.use("/api/departments", departmentRoutes); // NEW
 
 /* ---------- DEFAULT PAGE ---------- */
 
@@ -49,4 +53,3 @@ const PORT = 3000;
 app.listen(PORT, () => {
 console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
-
