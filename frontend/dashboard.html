@@ -16,6 +16,7 @@
 <a href="#" onclick="showDashboard()">Dashboard</a>
 <a href="resources.html">Resources</a>
 <a href="upload.html">Upload Resource</a>
+<a href="departments.html">Departments</a>
 <a href="students.html">Students</a>
 <a href="#" onclick="showAdmin()">Admin Panel</a>
 <a href="#" onclick="logout()">Logout</a>
@@ -37,13 +38,13 @@
 <div class="card">
 <i class="fa-solid fa-building"></i>
 <h3>Departments</h3>
-<p>5</p>
+<p id="totalDepartments">0</p>
 </div>
 
 <div class="card">
 <i class="fa-solid fa-users"></i>
 <h3>Users</h3>
-<p>120</p>
+<p id="totalUsers">0</p>
 </div>
 
 <div id="adminPanel" style="display:none; margin-top:40px;">
@@ -80,7 +81,6 @@
 <tbody id="recentResources"></tbody>
 
 </table>
-
 
 </div>
 

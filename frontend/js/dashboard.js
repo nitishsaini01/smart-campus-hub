@@ -6,14 +6,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     console.log("User role:", role);
 
-    // Hide admin panel for non-admin users
     if (role !== "admin") {
         const adminPanel = document.getElementById("adminPanel");
         if (adminPanel) {
             adminPanel.style.display = "none";
         }
 
-        // Hide admin button in sidebar
         const adminLink = document.querySelector("a[onclick='showAdmin()']");
         if (adminLink) {
             adminLink.style.display = "none";
@@ -30,13 +28,11 @@ async function loadResources() {
         const res = await fetch("http://localhost:3000/api/resources");
         const data = await res.json();
 
-        // Total resources count
         const total = document.getElementById("totalResources");
         if (total) {
             total.innerText = data.length;
         }
 
-        // Resource cards (if exists)
         const list = document.getElementById("resourceList");
         if (list) {
             list.innerHTML = "";
@@ -58,7 +54,6 @@ async function loadResources() {
             });
         }
 
-        // Recent resources table
         const recent = document.getElementById("recentResources");
         if (recent) {
             recent.innerHTML = "";
@@ -80,6 +75,28 @@ async function loadResources() {
 }
 
 loadResources();
+
+
+// =====================
+// LOAD USERS COUNT
+// =====================
+async function loadUsers() {
+    try {
+        const res = await fetch("http://localhost:3000/api/students");
+        const data = await res.json();
+
+        const userCount = document.getElementById("totalUsers");
+
+        if (userCount) {
+            userCount.innerText = data.length;
+        }
+
+    } catch (err) {
+        console.error("Error loading users:", err);
+    }
+}
+
+loadUsers();
 
 
 // =====================
@@ -153,3 +170,20 @@ function logout() {
     localStorage.clear();
     window.location.href = "login.html";
 }
+
+async function loadDepartmentsCount() {
+
+try {
+
+const res = await fetch("http://localhost:3000/api/departments");
+const data = await res.json();
+
+document.getElementById("totalDepartments").innerText = data.length;
+
+} catch(err){
+console.error("Department count error:", err);
+}
+
+}
+
+loadDepartmentsCount();

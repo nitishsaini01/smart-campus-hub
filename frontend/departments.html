@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Departments</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="sidebar">
+<h2>Smart Campus</h2>
+
+<a href="dashboard.html">Dashboard</a>
+<a href="resources.html">Resources</a>
+<a href="upload.html">Upload Resource</a>
+<a href="students.html">Students</a>
+<a href="departments.html">Departments</a>
+<a href="#" onclick="logout()">Logout</a>
+
+</div>
+
+<div class="main">
+
+<h1>Departments</h1>
+
+<!-- Admin Add Section -->
+<div id="adminAdd" style="margin-bottom:20px;">
+<input type="text" id="deptName" placeholder="Department name">
+<button onclick="addDepartment()">Add Department</button>
+</div>
+
+<table class="resource-table">
+
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th id="actionHeader">Action</th>
+</tr>
+</thead>
+
+<tbody id="deptTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script src="/js/departments.js"></script>
+
+</body>
+</html>
