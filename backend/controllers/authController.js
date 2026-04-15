@@ -16,7 +16,8 @@ const user = rows[0];
 res.json({
 success:true,
 role:user.role,
-userId:user.id
+userId:user.id,
+name:user.name
 });
 
 }else{

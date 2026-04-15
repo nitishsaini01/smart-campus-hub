@@ -5,7 +5,9 @@ const path = require("path");
 const authRoutes = require("./routes/authRoutes");
 const resourceRoutes = require("./routes/resourceRoutes");
 const studentRoutes = require("./routes/studentRoutes");
-const departmentRoutes = require("./routes/departmentRoutes"); // NEW
+const departmentRoutes = require("./routes/departmentRoutes");
+const announcementRoutes = require("./routes/announcementRoutes");
+const commentRoutes = require("./routes/commentRoutes");
 
 const pool = require("./config/db");
 
@@ -33,12 +35,14 @@ app.use(express.static(path.join(__dirname, "../frontend")));
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-/* ---------- ROUTES ---------- */
+/* ---------- API ROUTES ---------- */
 
 app.use("/api", authRoutes);
 app.use("/api/resources", resourceRoutes);
 app.use("/api/students", studentRoutes);
-app.use("/api/departments", departmentRoutes); // NEW
+app.use("/api/departments", departmentRoutes);
+app.use("/api/announcements", announcementRoutes);
+app.use("/api/comments", commentRoutes);
 
 /* ---------- DEFAULT PAGE ---------- */
 
@@ -48,8 +52,31 @@ res.sendFile(path.join(__dirname, "../frontend/login.html"));
 
 /* ---------- SERVER ---------- */
 
+const http = require("http");
+const { Server } = require("socket.io");
+
+const server = http.createServer(app);
+
+const io = new Server(server, {
+    cors: {
+        origin: "*"
+    }
+});
+
+io.on("connection", (socket) => {
+    console.log("🟢 User connected");
+
+    socket.on("chat message", (msg) => {
+        io.emit("chat message", msg);
+    });
+
+    socket.on("disconnect", () => {
+        console.log("🔴 User disconnected");
+    });
+});
+
 const PORT = 3000;
 
-app.listen(PORT, () => {
-console.log(`🚀 Server running at http://localhost:${PORT}`);
+server.listen(PORT, () => {
+    console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
