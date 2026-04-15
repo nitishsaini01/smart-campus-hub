@@ -23,25 +23,176 @@ Upload Resource
 
 <div id="resourceList"></div>
 
-<script src="/js/dashboard.js"></script>
-
 <script>
+
+const role = localStorage.getItem("role");
+
+async function loadResources(){
+
+try{
+
+const res = await fetch("http://localhost:3000/api/resources");
+const data = await res.json();
+
+const list = document.getElementById("resourceList");
+
+list.innerHTML="";
+
+data.forEach(r=>{
+
+let icon="📄";
+
+if(r.file_url.endsWith(".pdf")) icon="📕";
+if(r.file_url.endsWith(".ppt") || r.file_url.endsWith(".pptx")) icon="📊";
+if(r.file_url.endsWith(".doc") || r.file_url.endsWith(".docx")) icon="📝";
+if(r.file_url.endsWith(".jpg") || r.file_url.endsWith(".png")) icon="🖼️";
+
+let deleteBtn="";
+
+if(role === "admin"){
+deleteBtn = `<button onclick="deleteResource(${r.id})">Delete</button>`;
+}
+
+list.innerHTML += `
+
+<div class="resource">
+
+<h3>${icon} ${r.title}</h3>
+
+<p>${r.description}</p>
+
+<p>Uploaded by: ${r.name}</p>
+
+<a href="${r.file_url}" target="_blank">Open</a>
+
+<a href="${r.file_url}" download>Download</a>
+
+${deleteBtn}
+
+<div class="comments">
+
+<h4>Comments</h4>
+
+<div id="comments${r.id}"></div>
+
+<input type="text" id="commentInput${r.id}" placeholder="Write comment">
+
+<button onclick="postComment(${r.id})">Post</button>
+
+</div>
+
+</div>
+
+`;
+
+loadComments(r.id);
+
+});
+
+}catch(err){
+console.error("Error loading resources:",err);
+}
+
+}
+
+loadResources();
+
+
+
+async function deleteResource(id){
+
+const confirmDelete = confirm("Delete this resource?");
+
+if(!confirmDelete) return;
+
+await fetch(`http://localhost:3000/api/resources/${id}`,{
+method:"DELETE"
+});
+
+loadResources();
+
+}
+
+
+
+async function postComment(resourceId){
+
+const name = localStorage.getItem("name");
+
+const input = document.getElementById("commentInput"+resourceId);
+
+const comment = input.value;
+
+if(!comment) return alert("Write comment");
+
+await fetch("http://localhost:3000/api/comments",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+resource_id:resourceId,
+user_name:name,
+comment:comment
+})
+
+});
+
+input.value="";
+
+loadComments(resourceId);
+
+}
+
+
+
+async function loadComments(resourceId){
+
+const res = await fetch(`http://localhost:3000/api/comments/${resourceId}`);
+
+const data = await res.json();
+
+const list = document.getElementById("comments"+resourceId);
+
+if(!list) return;
+
+list.innerHTML="";
+
+data.forEach(c=>{
+
+list.innerHTML += `<p><b>${c.user_name}</b>: ${c.comment}</p>`;
+
+});
+
+}
+
+
+
 const search = document.getElementById("search");
 
 search.addEventListener("keyup", function(){
-    const value = search.value.toLowerCase();
-    const resources = document.querySelectorAll(".resource");
 
-    resources.forEach(r=>{
-        const text = r.innerText.toLowerCase();
+const value = search.value.toLowerCase();
 
-        if(text.includes(value)){
-            r.style.display = "block";
-        }else{
-            r.style.display = "none";
-        }
-    });
+const resources = document.querySelectorAll(".resource");
+
+resources.forEach(r=>{
+
+const text = r.innerText.toLowerCase();
+
+if(text.includes(value)){
+r.style.display="block";
+}else{
+r.style.display="none";
+}
+
 });
+
+});
+
 </script>
 
 </body>

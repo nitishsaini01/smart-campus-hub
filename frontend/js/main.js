@@ -1,4 +1,4 @@
-document.getElementById("loginForm").addEventListener("submit",async e=>{
+document.getElementById("loginForm").addEventListener("submit", async e => {
 
 e.preventDefault();
 
@@ -22,6 +22,7 @@ if(data.success){
 
 localStorage.setItem("userId",data.userId);
 localStorage.setItem("role",data.role);
+localStorage.setItem("name",data.name);   // saves username
 
 window.location.href="dashboard.html";
 

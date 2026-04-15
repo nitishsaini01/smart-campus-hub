@@ -25,7 +25,7 @@
 
 <div class="main">
 
-<h1>Dashboard</h1>
+<h1 id="welcomeText">Dashboard</h1>
 
 <div class="cards">
 
@@ -47,9 +47,17 @@
 <p id="totalUsers">0</p>
 </div>
 
+</div>
+
 <div id="adminPanel" style="display:none; margin-top:40px;">
 
 <h2>Manage Resources</h2>
+
+<h3>Post Announcement</h3>
+
+<input type="text" id="announcementText" placeholder="Write announcement">
+
+<button onclick="postAnnouncement()">Post</button>
 
 <table class="resource-table">
 <thead>
@@ -75,6 +83,7 @@
 <th>Title</th>
 <th>Description</th>
 <th>Uploaded By</th>
+<th>Download</th>
 </tr>
 </thead>
 
@@ -82,10 +91,23 @@
 
 </table>
 
-</div>
+<h2>Announcements</h2>
+
+<ul id="announcementList"></ul>
 
 </div>
 
+</div>
+
+<h2>Campus Live Chat</h2>
+
+<div id="chatBox" style="height:200px;overflow:auto;border:1px solid #ccc;padding:10px;"></div>
+
+<input type="text" id="chatInput" placeholder="Type message">
+
+<button onclick="sendMessage()">Send</button>
+
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 <script src="/js/dashboard.js"></script>
 </body>
 </html>
