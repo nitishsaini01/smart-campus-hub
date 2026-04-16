@@ -95,19 +95,23 @@
 
 <ul id="announcementList"></ul>
 
-</div>
-
-</div>
+<!-- CHAT SECTION -->
 
 <h2>Campus Live Chat</h2>
 
-<div id="chatBox" style="height:200px;overflow:auto;border:1px solid #ccc;padding:10px;"></div>
+<div id="chatMessages" style="height:200px;overflow-y:auto;border:1px solid #ccc;padding:10px;margin-bottom:10px;"></div>
 
-<input type="text" id="chatInput" placeholder="Type message">
+<input type="text" id="chatInput" placeholder="Type message..." style="width:80%;padding:8px;">
 
-<button onclick="sendMessage()">Send</button>
+<button id="sendBtn">Send</button>
+
+</div>
+
+</div>
 
 <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 <script src="/js/dashboard.js"></script>
+<script src="/js/chat.js"></script>
+
 </body>
 </html>

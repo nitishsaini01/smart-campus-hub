@@ -326,28 +326,3 @@ list.innerHTML += `<p><b>${c.user_name}</b>: ${c.comment}</p>`;
 
 }
 
-const socket = io("http://localhost:3000");
-
-const chatBox = document.getElementById("chatBox");
-
-socket.on("chat message",(msg)=>{
-
-chatBox.innerHTML += `<p>${msg}</p>`;
-
-chatBox.scrollTop = chatBox.scrollHeight;
-
-});
-
-function sendMessage(){
-
-const input = document.getElementById("chatInput");
-
-const name = localStorage.getItem("name");
-
-const message = name + ": " + input.value;
-
-socket.emit("chat message",message);
-
-input.value="";
-
-}

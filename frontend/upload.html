@@ -9,10 +9,26 @@
 <h2>Upload Resource</h2>
 
 <form id="uploadForm">
-    <input type="text" name="title" placeholder="Title" required>
-    <input type="text" name="description" placeholder="Description" required>
-    <input type="file" name="file" required>
-    <button type="submit">Upload</button>
+
+<input type="text" name="title" placeholder="Title" required>
+
+<input type="text" name="description" placeholder="Description" required>
+
+<label>Department</label>
+<select name="department_id" required>
+
+<option value="1">Computer Science</option>
+<option value="2">Electronics</option>
+<option value="3">Mechanical</option>
+<option value="4">Civil</option>
+<option value="5">Business</option>
+
+</select>
+
+<input type="file" name="file" required>
+
+<button type="submit">Upload</button>
+
 </form>
 
 <script src="/js/upload.js"></script>

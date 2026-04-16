@@ -8,6 +8,7 @@ const studentRoutes = require("./routes/studentRoutes");
 const departmentRoutes = require("./routes/departmentRoutes");
 const announcementRoutes = require("./routes/announcementRoutes");
 const commentRoutes = require("./routes/commentRoutes");
+const chatRoutes = require("./routes/chatRoutes");   // ✅ NEW
 
 const pool = require("./config/db");
 
@@ -43,6 +44,7 @@ app.use("/api/students", studentRoutes);
 app.use("/api/departments", departmentRoutes);
 app.use("/api/announcements", announcementRoutes);
 app.use("/api/comments", commentRoutes);
+app.use("/api/chat", chatRoutes);   // ✅ NEW ROUTE
 
 /* ---------- DEFAULT PAGE ---------- */
 
@@ -58,25 +60,49 @@ const { Server } = require("socket.io");
 const server = http.createServer(app);
 
 const io = new Server(server, {
-    cors: {
-        origin: "*"
-    }
+cors: {
+origin: "*"
+}
 });
+
+/* ---------- SOCKET CHAT ---------- */
 
 io.on("connection", (socket) => {
-    console.log("🟢 User connected");
 
-    socket.on("chat message", (msg) => {
-        io.emit("chat message", msg);
-    });
+console.log("🟢 User connected");
 
-    socket.on("disconnect", () => {
-        console.log("🔴 User disconnected");
-    });
+socket.on("chat message", async (data) => {
+
+try{
+
+const { sender, message } = data;
+
+await pool.query(
+"INSERT INTO chats (sender_name,message) VALUES (?,?)",
+[sender, message]
+);
+
+io.emit("chat message", {
+sender,
+message
 });
+
+}catch(err){
+console.log(err);
+}
+
+});
+
+socket.on("disconnect", () => {
+console.log("🔴 User disconnected");
+});
+
+});
+
+/* ---------- SERVER START ---------- */
 
 const PORT = 3000;
 
 server.listen(PORT, () => {
-    console.log(`🚀 Server running at http://localhost:${PORT}`);
+console.log(`🚀 Server running at http://localhost:${PORT}`);
 });

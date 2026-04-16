@@ -34,14 +34,50 @@
 <script>
 
 const params = new URLSearchParams(window.location.search);
+const deptId = params.get("id");
 const name = params.get("name");
 
 document.getElementById("deptTitle").innerText = name;
+
+async function loadDepartmentResources(){
+
+const res = await fetch("http://localhost:3000/api/resources");
+const data = await res.json();
+
+const main = document.querySelector(".main");
+
+data.forEach(r=>{
+
+if(r.department_id == deptId){
+
+main.innerHTML += `
+
+<div class="resource">
+
+<h3>${r.title}</h3>
+
+<p>${r.description}</p>
+
+<p>Uploaded by: ${r.name}</p>
+
+<a href="${r.file_url}" target="_blank">Open</a>
+
+</div>
+
+`;
+
+}
+
+});
+
+}
 
 function logout(){
 localStorage.clear();
 window.location.href="login.html";
 }
+
+loadDepartmentResources();
 
 </script>
 

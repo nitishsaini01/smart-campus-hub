@@ -1,40 +1,69 @@
-// controllers/resourceController.js
 const pool = require("../config/db");
 
+
 exports.getResources = async (req, res) => {
-    const [rows] = await pool.query(
-        "SELECT resources.*, users.name FROM resources JOIN users ON resources.uploaded_by = users.id"
-    );
-    res.json(rows);
+
+const [rows] = await pool.query(
+"SELECT resources.*, users.name FROM resources JOIN users ON resources.uploaded_by = users.id"
+);
+
+res.json(rows);
+
 };
 
-exports.addResource = async (req, res) => {
-    const { title, description, file_url, uploaded_by } = req.body;
-    await pool.query(
-        "INSERT INTO resources (title, description, file_url, uploaded_by) VALUES (?,?,?,?)",
-        [title, description, file_url, uploaded_by]
-    );
-    res.json({ success: true });
-};
+
 
 exports.uploadResource = async (req, res) => {
-    try {
-        console.log("BODY:", req.body);
-        console.log("FILE:", req.file);
 
-        if (!req.file) return res.status(400).json({ message: "No file uploaded" });
+try{
 
-        const { title, description } = req.body;
-        const fileUrl = "/uploads/" + req.file.filename;
+if(!req.file){
+return res.status(400).json({message:"No file uploaded"});
+}
 
-        await pool.query(
-            "INSERT INTO resources (title, description, file_url, uploaded_by) VALUES (?,?,?,1)",
-            [title, description, fileUrl]
-        );
+const {title,description,department_id} = req.body;
 
-        res.json({ message: "Resource uploaded successfully" });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: "Upload error" });
-    }
+const uploaded_by = req.body.uploaded_by;
+
+const fileUrl = "/uploads/" + req.file.filename;
+
+
+await pool.query(
+"INSERT INTO resources (title,description,file_url,uploaded_by,department_id) VALUES (?,?,?,?,?)",
+[title,description,fileUrl,uploaded_by,department_id]
+);
+
+
+res.json({message:"Resource uploaded successfully"});
+
+}catch(err){
+
+console.log(err);
+res.status(500).json({message:"Upload error"});
+
+}
+
+};
+
+
+exports.deleteResource = async (req,res)=>{
+
+try{
+
+const id = req.params.id;
+
+await pool.query(
+"DELETE FROM resources WHERE id=?",
+[id]
+);
+
+res.json({message:"Resource deleted"});
+
+}catch(err){
+
+console.log(err);
+res.status(500).json({message:"Delete error"});
+
+}
+
 };

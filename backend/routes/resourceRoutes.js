@@ -1,40 +1,46 @@
+// backend/routes/resourceRoutes.js
+
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
+
+const resourceController = require("../controllers/resourceController");
 
 console.log("Resource routes loaded");
 
-const pool = require("../config/db"); // ✅ database connection
-const resourceController = require("../controllers/resourceController");
-const upload = require("../controllers/uploadController");
+/* FILE STORAGE */
 
-// Get all resources
-router.get("/", resourceController.getResources);
+const storage = multer.diskStorage({
+destination: function (req, file, cb) {
+cb(null, "uploads/");
+},
+filename: function (req, file, cb) {
+cb(null, Date.now() + "-" + file.originalname);
+}
+});
 
-// Add resource
-router.post("/", resourceController.addResource);
+const upload = multer({ storage: storage });
 
-// Upload resource with file
-router.post("/upload", upload.single("file"), resourceController.uploadResource);
 
-// Delete resource
-router.delete("/:id", async (req,res)=>{
+/* GET ALL RESOURCES */
 
-const { id } = req.params;
-
-try{
-
-await pool.query(
-"DELETE FROM resources WHERE id=?",
-[id]
+router.get("/",
+resourceController.getResources
 );
 
-res.json({message:"Resource deleted"});
 
-}catch(err){
-console.error(err);
-res.status(500).json({error:"Delete failed"});
-}
+/* UPLOAD RESOURCE */
 
-});
+router.post("/",
+upload.single("file"),
+resourceController.uploadResource
+);
+
+
+/* DELETE RESOURCE */
+
+router.delete("/:id",
+resourceController.deleteResource
+);
 
 module.exports = router;

@@ -1,23 +1,33 @@
-document.getElementById("uploadForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
+const form = document.getElementById("uploadForm");
 
-    const formData = new FormData(e.target);
+form.addEventListener("submit", async (e)=>{
 
-    try {
-        const res = await fetch("http://localhost:3000/api/resources/upload", {
-            method: "POST",
-            body: formData
-        });
+e.preventDefault();
 
-        const data = await res.json();
+const formData = new FormData(form);
 
-        if (res.ok) {
-            alert(data.message);
-        } else {
-            alert("Error: " + data.message);
-        }
-    } catch (err) {
-        console.error(err);
-        alert("Upload failed. Check server console.");
-    }
+const uploaded_by = localStorage.getItem("userId");
+
+formData.append("uploaded_by", uploaded_by);
+
+try{
+
+const res = await fetch("/api/resources",{
+method:"POST",
+body:formData
+});
+
+const data = await res.json();
+
+alert("Resource uploaded successfully");
+
+window.location.href="dashboard.html";
+
+}catch(err){
+
+console.log(err);
+alert("Upload failed");
+
+}
+
 });
