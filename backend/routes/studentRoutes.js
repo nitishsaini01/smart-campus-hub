@@ -2,74 +2,135 @@ const express = require("express");
 const router = express.Router();
 const pool = require("../config/db");
 
+const multer = require("multer");
+const studentController = require("../controllers/studentController");
 
-// =====================
-// GET ALL STUDENTS
-// =====================
+
+/* =====================
+   MULTER CONFIG (PROFILE IMAGE UPLOAD)
+===================== */
+
+const storage = multer.diskStorage({
+destination: (req,file,cb)=>{
+cb(null,"uploads/profiles");
+},
+filename:(req,file,cb)=>{
+cb(null, Date.now()+"-"+file.originalname);
+}
+});
+
+const upload = multer({storage});
+
+
+/* =====================
+GET ALL STUDENTS
+===================== */
+
 router.get("/", async (req, res) => {
-    try {
-        const [rows] = await pool.query(
-            "SELECT id, name, email FROM users WHERE role='student'"
-        );
-        res.json(rows);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+try{
+
+const [rows] = await pool.query(
+"SELECT id, name, email FROM users WHERE role='student'"
+);
+
+res.json(rows);
+
+}catch(err){
+res.status(500).json({ error: err.message });
+}
 });
 
 
-// =====================
-// ADD STUDENT
-// =====================
+/* =====================
+ADD STUDENT
+===================== */
+
 router.post("/", async (req, res) => {
-    try {
-        const { name, email, password } = req.body;
+try{
 
-        await pool.query(
-            "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'student')",
-            [name, email, password]
-        );
+const { name, email, password } = req.body;
 
-        res.json({ message: "Student added" });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+await pool.query(
+"INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'student')",
+[name, email, password]
+);
+
+res.json({ message: "Student added" });
+
+}catch (err){
+res.status(500).json({ error: err.message });
+}
 });
 
 
-// =====================
-// UPDATE STUDENT
-// =====================
+/* =====================
+UPDATE STUDENT
+===================== */
+
 router.put("/:id", async (req, res) => {
-    try {
-        const { name, email } = req.body;
+try{
 
-        await pool.query(
-            "UPDATE users SET name=?, email=? WHERE id=? AND role='student'",
-            [name, email, req.params.id]
-        );
+const { name, email } = req.body;
 
-        res.json({ message: "Student updated" });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+await pool.query(
+"UPDATE users SET name=?, email=? WHERE id=? AND role='student'",
+[name, email, req.params.id]
+);
+
+res.json({ message: "Student updated" });
+
+}catch (err){
+res.status(500).json({ error: err.message });
+}
 });
 
 
-// =====================
-// DELETE STUDENT
-// =====================
-router.delete("/:id", async (req, res) => {
-    try {
-        await pool.query(
-            "DELETE FROM users WHERE id=? AND role='student'",
-            [req.params.id]
-        );
+/* =====================
+UPDATE PASSWORD
+===================== */
 
-        res.json({ message: "Student deleted" });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+router.put("/password/:id", async (req, res) => {
+try{
+
+const { password } = req.body;
+
+await pool.query(
+"UPDATE users SET password=? WHERE id=?",
+[password, req.params.id]
+);
+
+res.json({ message: "Password updated" });
+
+}catch (err){
+res.status(500).json({ error: err.message });
+}
+});
+
+
+/* =====================
+UPLOAD PROFILE PICTURE
+===================== */
+
+router.post("/profile-pic/:id", upload.single("image"), studentController.uploadProfilePic);
+
+
+/* =====================
+DELETE STUDENT
+===================== */
+
+router.delete("/:id", async (req, res) => {
+try{
+
+await pool.query(
+"DELETE FROM users WHERE id=? AND role='student'",
+[req.params.id]
+);
+
+res.json({ message: "Student deleted" });
+
+}catch (err){
+res.status(500).json({ error: err.message });
+}
 });
 
 
