@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Assignments</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<div class="navbar">
+<a href="/dashboard.html">Dashboard</a>
+<a href="/resources.html">Resources</a>
+<a href="/assignments.html">Assignments</a>
+<a href="/">Logout</a>
+</div>
+
+<div class="container">
+
+<h2>Assignments</h2>
+
+<!-- Teacher Upload Section -->
+<div id="teacherUpload">
+
+<h3>Create Assignment</h3>
+
+<form id="assignmentForm" enctype="multipart/form-data">
+
+<input type="text" id="title" placeholder="Assignment Title" required>
+<br><br>
+
+<textarea id="description" placeholder="Assignment Description"></textarea>
+<br><br>
+
+<input type="date" id="due_date" required>
+<br><br>
+
+<input type="file" id="file" required>
+<br><br>
+
+<button type="submit">Upload Assignment</button>
+
+</form>
+
+</div>
+
+<hr>
+
+<!-- Assignment List (VISIBLE FOR EVERYONE) -->
+<div id="assignmentList"></div>
+
+</div>
+
+<script src="/js/assignments.js"></script>
+
+</body>
+</html>

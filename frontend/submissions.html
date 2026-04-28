@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Student Submissions</title>
+</head>
+
+<body>
+
+<h2>All Student Submissions</h2>
+
+<div id="submissionList"></div>
+
+<script>
+
+async function loadSubmissions(){
+
+const res = await fetch("/api/submissions/all");
+const data = await res.json();
+
+let html="";
+
+data.forEach(sub=>{
+
+html+=`
+<div>
+<h3>${sub.title}</h3>
+<p>Student: ${sub.name}</p>
+
+<button onclick="deleteSubmission(${sub.id})">Delete</button>
+
+<hr>
+</div>
+`;
+
+});
+
+document.getElementById("submissionList").innerHTML=html;
+
+}
+
+async function deleteSubmission(id){
+
+await fetch("/api/submissions/"+id,{
+method:"DELETE"
+});
+
+alert("Deleted");
+
+loadSubmissions();
+
+}
+
+loadSubmissions();
+
+</script>
+
+</body>
+</html>

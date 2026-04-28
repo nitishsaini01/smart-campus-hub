@@ -8,7 +8,9 @@ const studentRoutes = require("./routes/studentRoutes");
 const departmentRoutes = require("./routes/departmentRoutes");
 const announcementRoutes = require("./routes/announcementRoutes");
 const commentRoutes = require("./routes/commentRoutes");
-const chatRoutes = require("./routes/chatRoutes");   // ✅ NEW
+const chatRoutes = require("./routes/chatRoutes");   
+const assignmentRoutes = require("./routes/assignmentRoutes");
+const submissionRoutes = require("./routes/submissionRoutes");
 
 const pool = require("./config/db");
 
@@ -44,7 +46,9 @@ app.use("/api/students", studentRoutes);
 app.use("/api/departments", departmentRoutes);
 app.use("/api/announcements", announcementRoutes);
 app.use("/api/comments", commentRoutes);
-app.use("/api/chat", chatRoutes);   // ✅ NEW ROUTE
+app.use("/api/chat", chatRoutes);   // 
+app.use("/api/assignments", assignmentRoutes);
+app.use("/api/submissions", submissionRoutes);   
 
 /* ---------- DEFAULT PAGE ---------- */
 
