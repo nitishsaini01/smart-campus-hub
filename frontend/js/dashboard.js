@@ -29,6 +29,7 @@ loadResources();
 loadUsers();
 loadDepartmentsCount();
 loadAnnouncements();
+loadNotifications();   // ✅ ADDED THIS LINE
 
 });
 
@@ -60,6 +61,7 @@ recent.innerHTML += `
 <tr>
 <td>${r.title}</td>
 <td>${r.description}</td>
+<td>${r.department}</td>
 <td>${r.name}</td>
 <td><a href="${r.file_url}" target="_blank">Open</a></td>
 </tr>
@@ -274,6 +276,9 @@ localStorage.clear();
 window.location.href="login.html";
 
 }
+
+
+
 async function postComment(resourceId){
 
 const name = localStorage.getItem("name");
@@ -306,6 +311,8 @@ loadComments(resourceId);
 
 }
 
+
+
 async function loadComments(resourceId){
 
 const res = await fetch(`http://localhost:3000/api/comments/${resourceId}`);
@@ -326,3 +333,34 @@ list.innerHTML += `<p><b>${c.user_name}</b>: ${c.comment}</p>`;
 
 }
 
+
+
+/* ================= NOTIFICATIONS ================= */
+
+async function loadNotifications(){
+
+try{
+
+const res = await fetch("http://localhost:3000/api/notifications");
+
+const data = await res.json();
+
+const list = document.getElementById("notificationList");
+
+if(!list) return;
+
+list.innerHTML="";
+
+data.forEach(n=>{
+
+list.innerHTML += `<li>🔔 ${n.message}</li>`;
+
+});
+
+}catch(err){
+
+console.error("Notification error:",err);
+
+}
+
+}

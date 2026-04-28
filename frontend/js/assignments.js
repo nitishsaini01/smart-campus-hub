@@ -1,7 +1,45 @@
 const role = localStorage.getItem("role");
 const userId = localStorage.getItem("userId");
 
-/* Hide teacher upload section if student */
+/* ================= CREATE ASSIGNMENT ================= */
+
+const form = document.getElementById("assignmentForm");
+
+if(form){
+
+form.addEventListener("submit", async function(e){
+
+e.preventDefault();
+
+const title = document.getElementById("title").value;
+const description = document.getElementById("description").value;
+const due_date = document.getElementById("due_date").value;
+const file = document.getElementById("file").files[0];
+
+const formData = new FormData();
+
+formData.append("title", title);
+formData.append("description", description);
+formData.append("due_date", due_date);
+formData.append("created_by", userId);
+formData.append("file", file);
+
+await fetch("/api/assignments/create",{
+method:"POST",
+body:formData
+});
+
+alert("Assignment uploaded");
+
+form.reset();
+
+loadAssignments();
+
+});
+
+}
+
+/* ================= HIDE TEACHER SECTION ================= */
 
 if(role === "student"){
 
@@ -13,7 +51,7 @@ teacherSection.style.display = "none";
 
 }
 
-/* Load assignments */
+/* ================= LOAD ASSIGNMENTS ================= */
 
 async function loadAssignments(){
 
@@ -86,7 +124,7 @@ View Student Submissions
 
 loadAssignments();
 
-/* Student submits assignment */
+/* ================= SUBMIT ASSIGNMENT ================= */
 
 async function submitAssignment(id){
 
@@ -112,7 +150,7 @@ alert("Assignment submitted");
 
 }
 
-/* Teacher delete assignment */
+/* ================= DELETE ASSIGNMENT ================= */
 
 async function deleteAssignment(id){
 
@@ -126,7 +164,7 @@ loadAssignments();
 
 }
 
-/* View submissions */
+/* ================= VIEW SUBMISSIONS ================= */
 
 async function viewSubmissions(id){
 
@@ -147,7 +185,7 @@ submissions.forEach(s => {
 
 let actions = "";
 
-/* Teacher/Admin → only view */
+/* Teacher/Admin */
 
 if(role === "teacher" || role === "admin"){
 
@@ -163,8 +201,6 @@ View Submission
 
 if(role === "student"){
 
-/* If this student uploaded */
-
 if(parseInt(userId) === s.student_id){
 
 actions = `
@@ -177,11 +213,7 @@ Delete
 </button>
 `;
 
-}
-
-/* Other students */
-
-else{
+}else{
 
 actions = `<p>Submitted</p>`;
 
@@ -207,7 +239,7 @@ ${actions}
 
 }
 
-/* Student delete submission */
+/* ================= DELETE SUBMISSION ================= */
 
 async function deleteSubmission(id){
 

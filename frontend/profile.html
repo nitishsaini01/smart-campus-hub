@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>User Profile</title>
+<link rel="stylesheet" href="/css/style.css">
+
+<style>
+
+.profile-container{
+width:800px;
+margin:auto;
+margin-top:40px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:30px;
+}
+
+.profile-card{
+background:#fff;
+padding:25px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+.profile-card h3{
+margin-bottom:15px;
+}
+
+.profile-info{
+margin-bottom:10px;
+font-size:16px;
+}
+
+.profile-card input{
+width:100%;
+padding:10px;
+margin-top:10px;
+margin-bottom:15px;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+.profile-card button{
+background:#4CAF50;
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:5px;
+cursor:pointer;
+}
+
+.profile-card button:hover{
+background:#45a049;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+<a href="/dashboard.html">Dashboard</a>
+<a href="/resources.html">Resources</a>
+<a href="/assignments.html">Assignments</a>
+<a href="/profile.html" class="active">Profile</a>
+<a href="/">Logout</a>
+</div>
+
+<div class="profile-container">
+
+<!-- Profile Info -->
+<div class="profile-card">
+
+<h3>My Profile</h3>
+
+<div class="profile-info">Name: <span id="name"></span></div>
+<div class="profile-info">Email: <span id="email"></span></div>
+<div class="profile-info">Role: <span id="role"></span></div>
+
+</div>
+
+<h3>Profile Picture</h3>
+
+<img id="profilePic" width="120" style="border-radius:50%">
+
+<br><br>
+
+<input type="file" id="image">
+
+<button onclick="uploadProfile()">Upload Photo</button>
+
+<!-- Update Name -->
+<div class="profile-card">
+
+<h3>Update Name</h3>
+
+<input type="text" id="newName" placeholder="Enter new name">
+
+<button onclick="updateName()">Update Name</button>
+
+</div>
+
+<!-- Change Password -->
+<div class="profile-card">
+
+<h3>Change Password</h3>
+
+<input type="password" id="newPassword" placeholder="New Password">
+
+<button onclick="updatePassword()">Change Password</button>
+
+</div>
+
+</div>
+
+<script src="/js/profile.js"></script>
+
+</body>
+</html>

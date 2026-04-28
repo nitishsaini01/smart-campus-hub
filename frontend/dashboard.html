@@ -16,10 +16,11 @@
 <a href="#" onclick="showDashboard()">Dashboard</a>
 <a href="resources.html">Resources</a>
 <a href="upload.html">Upload Resource</a>
-<a href="departments.html">Departments</a>
+<a href="departments.html" class="active">Departments</a>
 <a href="students.html">Students</a>
 <a href="assignments.html">Assignments</a>
 <a href="#" onclick="showAdmin()">Admin Panel</a>
+<a href="profile.html">Profile</a>
 <a href="#" onclick="logout()">Logout</a>
 
 </div>
@@ -49,6 +50,14 @@
 </div>
 
 </div>
+
+<!-- ================= NOTIFICATIONS ================= -->
+
+<h2>Notifications</h2>
+
+<ul id="notificationList"></ul>
+
+<!-- ================= ADMIN PANEL ================= -->
 
 <div id="adminPanel" style="display:none; margin-top:40px;">
 
@@ -83,6 +92,7 @@
 <tr>
 <th>Title</th>
 <th>Description</th>
+<th>Department</th>
 <th>Uploaded By</th>
 <th>Download</th>
 </tr>
