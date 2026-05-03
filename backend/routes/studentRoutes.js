@@ -7,7 +7,7 @@ const studentController = require("../controllers/studentController");
 
 
 /* =====================
-   MULTER CONFIG (PROFILE IMAGE UPLOAD)
+MULTER CONFIG (PROFILE IMAGE)
 ===================== */
 
 const storage = multer.diskStorage({
@@ -23,21 +23,104 @@ const upload = multer({storage});
 
 
 /* =====================
-GET ALL STUDENTS
+GET ALL USERS
 ===================== */
 
-router.get("/", async (req, res) => {
+router.get("/", async (req,res)=>{
 try{
 
 const [rows] = await pool.query(
-"SELECT id, name, email FROM users WHERE role='student'"
+"SELECT id,name,email,role,profile_pic FROM users"
 );
 
 res.json(rows);
 
 }catch(err){
-res.status(500).json({ error: err.message });
+res.status(500).json({error:err.message});
 }
+});
+
+
+/* =====================
+GET SINGLE USER PROFILE
+===================== */
+
+router.get("/profile/:id", async (req,res)=>{
+try{
+
+const [rows] = await pool.query(
+"SELECT id,name,email,role,profile_pic FROM users WHERE id=?",
+[req.params.id]
+);
+
+if(rows.length === 0){
+return res.status(404).json({message:"User not found"});
+}
+
+res.json(rows[0]);
+
+}catch(err){
+res.status(500).json({error:err.message});
+}
+});
+
+
+/* =====================
+GET USER ACTIVITY
+===================== */
+
+router.get("/activity/:id", async (req,res)=>{
+
+try{
+
+const id = req.params.id;
+
+/* COUNT RESOURCES */
+
+const [resources] = await pool.query(
+"SELECT COUNT(*) AS count FROM resources WHERE uploaded_by=?",
+[id]
+);
+
+/* COUNT ASSIGNMENTS */
+
+const [assignments] = await pool.query(
+"SELECT COUNT(*) AS count FROM submissions WHERE student_id=?",
+[id]
+);
+
+/* GET USER NAME FOR COMMENTS */
+
+const [user] = await pool.query(
+"SELECT name FROM users WHERE id=?",
+[id]
+);
+
+let commentCount = 0;
+
+if(user.length > 0){
+
+const [comments] = await pool.query(
+"SELECT COUNT(*) AS count FROM comments WHERE user_name=?",
+[user[0].name]
+);
+
+commentCount = comments[0].count;
+
+}
+
+res.json({
+resources: resources[0]?.count || 0,
+assignments: assignments[0]?.count || 0,
+comments: commentCount
+});
+
+}catch(err){
+
+res.status(500).json({error:err.message});
+
+}
+
 });
 
 
@@ -45,43 +128,73 @@ res.status(500).json({ error: err.message });
 ADD STUDENT
 ===================== */
 
-router.post("/", async (req, res) => {
+router.post("/", async (req,res)=>{
+
 try{
 
-const { name, email, password } = req.body;
+const {name,email,password} = req.body;
 
 await pool.query(
-"INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'student')",
-[name, email, password]
+"INSERT INTO users (name,email,password,role) VALUES (?,?,?,'student')",
+[name,email,password]
 );
 
-res.json({ message: "Student added" });
+res.json({message:"Student added"});
 
-}catch (err){
-res.status(500).json({ error: err.message });
+}catch(err){
+
+res.status(500).json({error:err.message});
+
 }
+
 });
 
 
 /* =====================
-UPDATE STUDENT
+UPDATE PROFILE
 ===================== */
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", async (req,res)=>{
+
 try{
 
-const { name, email } = req.body;
+const {name,email} = req.body;
+
+if(name && email){
 
 await pool.query(
-"UPDATE users SET name=?, email=? WHERE id=? AND role='student'",
-[name, email, req.params.id]
+"UPDATE users SET name=?, email=? WHERE id=?",
+[name,email,req.params.id]
 );
 
-res.json({ message: "Student updated" });
-
-}catch (err){
-res.status(500).json({ error: err.message });
 }
+
+else if(name){
+
+await pool.query(
+"UPDATE users SET name=? WHERE id=?",
+[name,req.params.id]
+);
+
+}
+
+else if(email){
+
+await pool.query(
+"UPDATE users SET email=? WHERE id=?",
+[email,req.params.id]
+);
+
+}
+
+res.json({message:"Profile updated"});
+
+}catch(err){
+
+res.status(500).json({error:err.message});
+
+}
+
 });
 
 
@@ -89,21 +202,25 @@ res.status(500).json({ error: err.message });
 UPDATE PASSWORD
 ===================== */
 
-router.put("/password/:id", async (req, res) => {
+router.put("/password/:id", async (req,res)=>{
+
 try{
 
-const { password } = req.body;
+const {password} = req.body;
 
 await pool.query(
 "UPDATE users SET password=? WHERE id=?",
-[password, req.params.id]
+[password,req.params.id]
 );
 
-res.json({ message: "Password updated" });
+res.json({message:"Password updated"});
 
-}catch (err){
-res.status(500).json({ error: err.message });
+}catch(err){
+
+res.status(500).json({error:err.message});
+
 }
+
 });
 
 
@@ -111,14 +228,19 @@ res.status(500).json({ error: err.message });
 UPLOAD PROFILE PICTURE
 ===================== */
 
-router.post("/profile-pic/:id", upload.single("image"), studentController.uploadProfilePic);
+router.post(
+"/profile-pic/:id",
+upload.single("image"),
+studentController.uploadProfilePic
+);
 
 
 /* =====================
 DELETE STUDENT
 ===================== */
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", async (req,res)=>{
+
 try{
 
 await pool.query(
@@ -126,12 +248,44 @@ await pool.query(
 [req.params.id]
 );
 
-res.json({ message: "Student deleted" });
+res.json({message:"Student deleted"});
 
-}catch (err){
-res.status(500).json({ error: err.message });
+}catch(err){
+
+res.status(500).json({error:err.message});
+
 }
+
 });
 
+/* =====================
+DELETE ACCOUNT
+===================== */
+
+router.delete("/delete/:id", async (req, res) => {
+
+try{
+
+const { id } = req.params;
+
+/* delete student */
+
+await pool.query(
+"DELETE FROM users WHERE id = ?",
+[id]
+);
+
+res.json({
+message: "Account deleted successfully"
+});
+
+}catch(err){
+
+console.error(err);
+res.status(500).json({error:"Server error"});
+
+}
+
+});
 
 module.exports = router;
