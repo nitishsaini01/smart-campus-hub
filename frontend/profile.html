@@ -53,6 +53,22 @@ cursor:pointer;
 background:#45a049;
 }
 
+/* Delete Account Button */
+
+.delete-account-btn{
+background:#ff4d4d;
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:5px;
+cursor:pointer;
+margin-top:10px;
+}
+
+.delete-account-btn:hover{
+background:#cc0000;
+}
+
 </style>
 </head>
 
@@ -79,6 +95,10 @@ background:#45a049;
 
 </div>
 
+
+<!-- Profile Picture -->
+<div class="profile-card">
+
 <h3>Profile Picture</h3>
 
 <img id="profilePic" width="120" style="border-radius:50%">
@@ -88,6 +108,29 @@ background:#45a049;
 <input type="file" id="image">
 
 <button onclick="uploadProfile()">Upload Photo</button>
+
+</div>
+
+
+<!-- User Activity -->
+<div class="profile-card">
+
+<h3>My Activity</h3>
+
+<div class="profile-info">
+Resources Uploaded: <span id="resCount">0</span>
+</div>
+
+<div class="profile-info">
+Assignments Submitted: <span id="subCount">0</span>
+</div>
+
+<div class="profile-info">
+Comments Posted: <span id="comCount">0</span>
+</div>
+
+</div>
+
 
 <!-- Update Name -->
 <div class="profile-card">
@@ -100,6 +143,19 @@ background:#45a049;
 
 </div>
 
+
+<!-- Update Email -->
+<div class="profile-card">
+
+<h3>Update Email</h3>
+
+<input type="email" id="newEmail" placeholder="Enter new email">
+
+<button onclick="updateEmail()">Update Email</button>
+
+</div>
+
+
 <!-- Change Password -->
 <div class="profile-card">
 
@@ -107,7 +163,23 @@ background:#45a049;
 
 <input type="password" id="newPassword" placeholder="New Password">
 
-<button onclick="updatePassword()">Change Password</button>
+<button onclick="changePassword()">Change Password</button>
+
+</div>
+
+
+<!-- Delete Account -->
+<div class="profile-card">
+
+<h3 style="color:red;">Danger Zone</h3>
+
+<p style="color:#555; font-size:14px;">
+Deleting your account will permanently remove all your data.
+</p>
+
+<button id="deleteAccountBtn" class="delete-account-btn">
+Delete Account
+</button>
 
 </div>
 

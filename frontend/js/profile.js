@@ -1,6 +1,8 @@
 const userId = localStorage.getItem("userId");
 
-/* Load Profile */
+/* =====================
+LOAD PROFILE
+===================== */
 
 async function loadProfile(){
 
@@ -16,7 +18,8 @@ document.getElementById("name").innerText = user.name;
 document.getElementById("email").innerText = user.email;
 document.getElementById("role").innerText = user.role;
 
-/* ✅ PROFILE IMAGE FIX ADDED HERE */
+/* Profile Image */
+
 if(user.profile_pic){
 document.getElementById("profilePic").src =
 "/uploads/profiles/" + user.profile_pic;
@@ -27,7 +30,28 @@ document.getElementById("profilePic").src =
 loadProfile();
 
 
-/* Update Name */
+/* =====================
+LOAD USER ACTIVITY
+===================== */
+
+async function loadActivity(){
+
+const res = await fetch("/api/students/activity/"+userId);
+
+const data = await res.json();
+
+document.getElementById("resCount").innerText = data.resources;
+document.getElementById("subCount").innerText = data.assignments;
+document.getElementById("comCount").innerText = data.comments;
+
+}
+
+loadActivity();
+
+
+/* =====================
+UPDATE NAME
+===================== */
 
 async function updateName(){
 
@@ -59,7 +83,43 @@ location.reload();
 }
 
 
-/* Change Password */
+/* =====================
+UPDATE EMAIL
+===================== */
+
+async function updateEmail(){
+
+const newEmail = document.getElementById("newEmail").value;
+
+if(!newEmail){
+alert("Enter email");
+return;
+}
+
+await fetch(`http://localhost:3000/api/students/${userId}`,{
+
+method:"PUT",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+email:newEmail
+})
+
+});
+
+alert("Email updated");
+
+location.reload();
+
+}
+
+
+/* =====================
+CHANGE PASSWORD
+===================== */
 
 async function changePassword(){
 
@@ -91,7 +151,9 @@ document.getElementById("newPassword").value="";
 }
 
 
-/* Upload Profile Picture */
+/* =====================
+UPLOAD PROFILE PICTURE
+===================== */
 
 async function uploadProfile(){
 
@@ -114,5 +176,48 @@ body:formData
 alert("Profile picture updated");
 
 location.reload();
+
+}
+
+
+/* =====================
+DELETE ACCOUNT
+===================== */
+
+const deleteBtn = document.getElementById("deleteAccountBtn");
+
+if(deleteBtn){
+
+deleteBtn.addEventListener("click", async () => {
+
+const confirmDelete = confirm("Are you sure you want to delete your account? This action cannot be undone.");
+
+if(!confirmDelete) return;
+
+try{
+
+const res = await fetch(`/api/students/delete/${userId}`,{
+method:"DELETE"
+});
+
+const data = await res.json();
+
+alert(data.message);
+
+/* logout user */
+
+localStorage.clear();
+
+window.location.href = "login.html";
+
+}catch(err){
+
+console.error(err);
+
+alert("Error deleting account");
+
+}
+
+});
 
 }
