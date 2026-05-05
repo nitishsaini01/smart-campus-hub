@@ -9,7 +9,7 @@
 
 <div class="navbar">
 <a href="/dashboard.html">Dashboard</a>
-<a href="/resources.html"class="active">Resources</a>
+<a href="/resources.html" class="active">Resources</a>
 <a href="/">Logout</a>
 </div>
 
@@ -17,7 +17,29 @@
 
 <input type="text" id="search" placeholder="Search resources...">
 
-<button onclick="window.location.href='/upload.html'">
+<select id="departmentFilter">
+<option value="">All Departments</option>
+<option value="Computer Science">Computer Science</option>
+<option value="Electronics">Electronics</option>
+<option value="Mechanical">Mechanical</option>
+<option value="Civil">Civil</option>
+<option value="Business">Business</option>
+<option value="Biology">Biology</option>
+</select>
+
+<select id="semesterFilter">
+<option value="">All Semesters</option>
+<option value="1">Sem 1</option>
+<option value="2">Sem 2</option>
+<option value="3">Sem 3</option>
+<option value="4">Sem 4</option>
+<option value="5">Sem 5</option>
+<option value="6">Sem 6</option>
+<option value="7">Sem 7</option>
+<option value="8">Sem 8</option>
+</select>
+
+<button id="uploadBtn" onclick="window.location.href='/upload.html'">
 Upload Resource
 </button>
 
@@ -27,6 +49,12 @@ Upload Resource
 
 const role = localStorage.getItem("role");
 
+/* Hide upload button for students */
+
+if(role === "student"){
+document.getElementById("uploadBtn").style.display = "none";
+}
+
 async function loadResources(){
 
 try{
@@ -34,11 +62,18 @@ try{
 const res = await fetch("http://localhost:3000/api/resources");
 const data = await res.json();
 
-const list = document.getElementById("resourceList");
+const deptFilter = document.getElementById("departmentFilter").value;
+const semFilter = document.getElementById("semesterFilter").value;
 
+const list = document.getElementById("resourceList");
 list.innerHTML="";
 
 data.forEach(r=>{
+
+/* Department + Semester filter */
+
+if(deptFilter && r.department !== deptFilter) return;
+if(semFilter && r.semester != semFilter) return;
 
 let icon="📄";
 
@@ -60,6 +95,10 @@ list.innerHTML += `
 <h3>${icon} ${r.title}</h3>
 
 <p>${r.description}</p>
+
+<p><b>Department:</b> ${r.department}</p>
+
+<p><b>Semester:</b> ${r.semester}</p>
 
 <p>Uploaded by: ${r.name}</p>
 
@@ -192,6 +231,11 @@ r.style.display="none";
 });
 
 });
+
+
+
+document.getElementById("departmentFilter").addEventListener("change",loadResources);
+document.getElementById("semesterFilter").addEventListener("change",loadResources);
 
 </script>
 

@@ -17,6 +17,13 @@ if(!user) return;
 document.getElementById("name").innerText = user.name;
 document.getElementById("email").innerText = user.email;
 document.getElementById("role").innerText = user.role;
+document.getElementById("department").innerText = user.department;
+document.getElementById("semester").innerText = user.semester;
+
+/* NEW — Department & Semester */
+
+document.getElementById("department").innerText = user.department || "Not set";
+document.getElementById("semester").innerText = user.semester || "Not set";
 
 /* Profile Image */
 
