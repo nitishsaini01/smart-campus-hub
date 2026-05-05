@@ -6,6 +6,9 @@ router.post("/submit", submissionController.submitAssignment);
 
 router.get("/all", submissionController.getSubmissions);
 
+/* NEW ROUTE */
+router.get("/student/:studentId", submissionController.getStudentSubmissions);
+
 router.delete("/:id", submissionController.deleteSubmission);
 
 module.exports = router;

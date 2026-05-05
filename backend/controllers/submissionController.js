@@ -1,5 +1,7 @@
 const pool = require("../config/db");
 
+/* ================= SUBMIT ASSIGNMENT ================= */
+
 exports.submitAssignment = async (req,res)=>{
 
 const {assignment_id, student_id, file_url} = req.body;
@@ -12,6 +14,9 @@ await pool.query(
 res.json({message:"Assignment submitted successfully"});
 };
 
+
+/* ================= GET ALL SUBMISSIONS (ADMIN) ================= */
+
 exports.getSubmissions = async (req,res)=>{
 
 const [rows] = await pool.query(`
@@ -23,6 +28,26 @@ JOIN assignments ON submissions.assignment_id = assignments.id
 
 res.json(rows);
 };
+
+
+/* ================= GET STUDENT SUBMISSIONS ================= */
+
+exports.getStudentSubmissions = async (req,res)=>{
+
+const studentId = req.params.studentId;
+
+const [rows] = await pool.query(`
+SELECT *
+FROM submissions
+WHERE student_id = ?
+`,[studentId]);
+
+res.json(rows);
+
+};
+
+
+/* ================= DELETE SUBMISSION ================= */
 
 exports.deleteSubmission = async (req,res)=>{
 
