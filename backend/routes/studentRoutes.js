@@ -30,7 +30,7 @@ router.get("/", async (req,res)=>{
 try{
 
 const [rows] = await pool.query(
-"SELECT id,name,email,role,profile_pic FROM users"
+"SELECT id,name,email,role,profile_pic,department,semester FROM users"
 );
 
 res.json(rows);
@@ -49,7 +49,7 @@ router.get("/profile/:id", async (req,res)=>{
 try{
 
 const [rows] = await pool.query(
-"SELECT id,name,email,role,profile_pic FROM users WHERE id=?",
+"SELECT id,name,email,role,profile_pic,department,semester FROM users WHERE id=?",
 [req.params.id]
 );
 

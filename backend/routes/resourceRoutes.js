@@ -1,5 +1,3 @@
-// backend/routes/resourceRoutes.js
-
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
@@ -21,13 +19,11 @@ cb(null, Date.now() + "-" + file.originalname);
 
 const upload = multer({ storage: storage });
 
-
-/* GET ALL RESOURCES */
+/* GET RESOURCES */
 
 router.get("/",
 resourceController.getResources
 );
-
 
 /* UPLOAD RESOURCE */
 
@@ -35,7 +31,6 @@ router.post("/",
 upload.single("file"),
 resourceController.uploadResource
 );
-
 
 /* DELETE RESOURCE */
 
