@@ -1,4 +1,49 @@
+/* ================= THEME SYSTEM ================= */
+
+function applyTheme(theme){
+
+if(theme === "dark"){
+document.body.classList.add("dark-mode");
+}else{
+document.body.classList.remove("dark-mode");
+}
+
+}
+
+const savedTheme = localStorage.getItem("theme") || "light";
+
+applyTheme(savedTheme);
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
+
+/* THEME TOGGLE */
+
+const toggleBtn = document.getElementById("themeToggle");
+
+if(toggleBtn){
+
+toggleBtn.addEventListener("click", () => {
+
+let theme = localStorage.getItem("theme");
+
+if(theme === "dark"){
+theme = "light";
+}else{
+theme = "dark";
+}
+
+localStorage.setItem("theme", theme);
+
+applyTheme(theme);
+
+});
+
+}
+
+
+/* ================= WELCOME TEXT ================= */
 
 const name = localStorage.getItem("name");
 
@@ -9,27 +54,38 @@ welcome.innerText = "Welcome, " + name;
 }
 }
 
+
+/* ================= ROLE CONTROL ================= */
+
 const role = localStorage.getItem("role");
 
 if (role !== "admin") {
 
 const adminPanel = document.getElementById("adminPanel");
+
 if (adminPanel) {
 adminPanel.style.display = "none";
 }
 
 const adminLink = document.querySelector("a[onclick='showAdmin()']");
+
 if (adminLink) {
 adminLink.style.display = "none";
 }
 
 }
 
+
+/* ================= LOAD DATA ================= */
+
 loadResources();
 loadUsers();
 loadDepartmentsCount();
 loadAnnouncements();
-loadNotifications();   // ✅ ADDED THIS LINE
+loadNotifications();
+loadAssignmentsCount();
+loadSubmissionsCount();
+loadPendingAssignments();
 
 });
 
@@ -42,9 +98,11 @@ async function loadResources(){
 try{
 
 const res = await fetch("http://localhost:3000/api/resources");
+
 const data = await res.json();
 
 const total = document.getElementById("totalResources");
+
 if(total){
 total.innerText = data.length;
 }
@@ -86,6 +144,7 @@ async function loadUsers(){
 try{
 
 const res = await fetch("http://localhost:3000/api/students");
+
 const data = await res.json();
 
 const users = document.getElementById("totalUsers");
@@ -96,6 +155,106 @@ users.innerText = data.length;
 
 }catch(err){
 console.error("User load error:",err);
+}
+
+}
+
+
+
+/* ================= ASSIGNMENTS COUNT ================= */
+
+async function loadAssignmentsCount(){
+
+try{
+
+const res = await fetch("http://localhost:3000/api/assignments/all");
+
+const data = await res.json();
+
+const el = document.getElementById("totalAssignments");
+
+if(el){
+el.innerText = data.length;
+}
+
+}catch(err){
+console.error("Assignment count error:",err);
+}
+
+}
+
+
+
+/* ================= SUBMISSIONS COUNT ================= */
+
+async function loadSubmissionsCount(){
+
+try{
+
+const role = localStorage.getItem("role");
+
+const userId = localStorage.getItem("userId");
+
+let url = "";
+
+if(role === "admin"){
+url = "http://localhost:3000/api/submissions/all";
+}
+else{
+url = `http://localhost:3000/api/submissions/student/${userId}`;
+}
+
+const res = await fetch(url);
+
+const data = await res.json();
+
+const el = document.getElementById("totalSubmissions");
+
+if(el){
+el.innerText = data.length;
+}
+
+}catch(err){
+console.error("Submission count error:",err);
+}
+
+}
+
+
+
+/* ================= PENDING ASSIGNMENTS ================= */
+
+async function loadPendingAssignments(){
+
+try{
+
+const role = localStorage.getItem("role");
+
+const userId = localStorage.getItem("userId");
+
+const el = document.getElementById("pendingAssignments");
+
+if(!el) return;
+
+if(role === "admin"){
+el.innerText = 0;
+return;
+}
+
+const aRes = await fetch("http://localhost:3000/api/assignments/all");
+
+const assignments = await aRes.json();
+
+const sRes = await fetch(`http://localhost:3000/api/submissions/student/${userId}`);
+
+const submissions = await sRes.json();
+
+const pending = assignments.length - submissions.length;
+
+el.innerText = pending;
+
+}catch(err){
+console.error("Pending assignment error:",err);
 }
 
 }
@@ -126,6 +285,7 @@ async function loadAdminResources(){
 try{
 
 const res = await fetch("http://localhost:3000/api/resources");
+
 const data = await res.json();
 
 const table = document.getElementById("adminResources");
@@ -187,6 +347,7 @@ async function loadAnnouncements(){
 try{
 
 const res = await fetch("http://localhost:3000/api/announcements");
+
 const data = await res.json();
 
 const list = document.getElementById("announcementList");
@@ -251,6 +412,7 @@ async function loadDepartmentsCount(){
 try{
 
 const res = await fetch("http://localhost:3000/api/departments");
+
 const data = await res.json();
 
 const dep = document.getElementById("totalDepartments");
@@ -274,62 +436,6 @@ function logout(){
 localStorage.clear();
 
 window.location.href="login.html";
-
-}
-
-
-
-async function postComment(resourceId){
-
-const name = localStorage.getItem("name");
-
-const input = document.getElementById("commentInput"+resourceId);
-
-const comment = input.value;
-
-if(!comment) return;
-
-await fetch("http://localhost:3000/api/comments",{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-resource_id:resourceId,
-user_name:name,
-comment:comment
-})
-
-});
-
-input.value="";
-
-loadComments(resourceId);
-
-}
-
-
-
-async function loadComments(resourceId){
-
-const res = await fetch(`http://localhost:3000/api/comments/${resourceId}`);
-
-const data = await res.json();
-
-const list = document.getElementById("comments"+resourceId);
-
-if(!list) return;
-
-list.innerHTML="";
-
-data.forEach(c=>{
-
-list.innerHTML += `<p><b>${c.user_name}</b>: ${c.comment}</p>`;
-
-});
 
 }
 

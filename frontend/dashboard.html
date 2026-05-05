@@ -2,8 +2,12 @@
 <html>
 <head>
 <title>Smart Campus Hub</title>
+
 <link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
 
 <body>
@@ -11,7 +15,12 @@
 <div class="container">
 
 <div class="sidebar">
+
 <h2>Smart Campus</h2>
+
+<button id="themeToggle" class="theme-btn">
+<i class="fa-solid fa-moon"></i> Toggle Theme
+</button>
 
 <a href="#" onclick="showDashboard()">Dashboard</a>
 <a href="resources.html">Resources</a>
@@ -24,6 +33,7 @@
 <a href="#" onclick="logout()">Logout</a>
 
 </div>
+
 
 <div class="main">
 
@@ -49,13 +59,33 @@
 <p id="totalUsers">0</p>
 </div>
 
+<div class="card">
+<i class="fa-solid fa-book"></i>
+<h3>Assignments</h3>
+<p id="totalAssignments">0</p>
 </div>
+
+<div class="card">
+<i class="fa-solid fa-file-arrow-up"></i>
+<h3>Submissions</h3>
+<p id="totalSubmissions">0</p>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-clock"></i>
+<h3>Pending Assignments</h3>
+<p id="pendingAssignments">0</p>
+</div>
+
+</div>
+
 
 <!-- ================= NOTIFICATIONS ================= -->
 
 <h2>Notifications</h2>
 
 <ul id="notificationList"></ul>
+
 
 <!-- ================= ADMIN PANEL ================= -->
 
@@ -70,6 +100,7 @@
 <button onclick="postAnnouncement()">Post</button>
 
 <table class="resource-table">
+
 <thead>
 <tr>
 <th>Title</th>
@@ -85,9 +116,11 @@
 
 </div>
 
+
 <h2>Recent Resources</h2>
 
 <table class="resource-table">
+
 <thead>
 <tr>
 <th>Title</th>
@@ -102,17 +135,24 @@
 
 </table>
 
+
 <h2>Announcements</h2>
 
 <ul id="announcementList"></ul>
+
 
 <!-- CHAT SECTION -->
 
 <h2>Campus Live Chat</h2>
 
-<div id="chatMessages" style="height:200px;overflow-y:auto;border:1px solid #ccc;padding:10px;margin-bottom:10px;"></div>
+<div id="chatMessages"
+style="height:200px;overflow-y:auto;border:1px solid #ccc;padding:10px;margin-bottom:10px;">
+</div>
 
-<input type="text" id="chatInput" placeholder="Type message..." style="width:80%;padding:8px;">
+<input type="text"
+id="chatInput"
+placeholder="Type message..."
+style="width:80%;padding:8px;">
 
 <button id="sendBtn">Send</button>
 
@@ -121,6 +161,7 @@
 </div>
 
 <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
 <script src="/js/dashboard.js"></script>
 <script src="/js/chat.js"></script>
 
