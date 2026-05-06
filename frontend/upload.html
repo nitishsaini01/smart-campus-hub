@@ -46,6 +46,14 @@
 </form>
 
 <script src="/js/upload.js"></script>
+<script>
 
+const savedTheme = localStorage.getItem("theme");
+
+if(savedTheme === "dark"){
+document.body.classList.add("dark-mode");
+}
+
+</script>
 </body>
 </html>

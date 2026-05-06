@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Teams Collaboration</title>
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<h2>Smart Campus</h2>
+
+<button id="themeToggle" class="theme-btn">
+<i class="fa-solid fa-moon"></i> Toggle Theme
+</button>
+
+<a href="dashboard.html">Dashboard</a>
+<a href="resources.html">Resources</a>
+<a href="upload.html">Upload Resource</a>
+<a href="departments.html">Departments</a>
+<a href="students.html">Students</a>
+<a href="assignments.html">Assignments</a>
+<a href="teams.html" class="active">Teams</a>
+<a href="profile.html">Profile</a>
+<a href="#" onclick="logout()">Logout</a>
+
+</div>
+
+
+<!-- MAIN CONTENT -->
+
+<div class="main">
+
+<h1>Teams Collaboration</h1>
+
+<div class="cards">
+
+<!-- CREATE TEAM CARD -->
+
+<div class="card">
+
+<i class="fa-solid fa-people-group"></i>
+
+<h3>Create Team</h3>
+
+<input id="teamName" placeholder="Team Name">
+
+<textarea id="teamDesc" placeholder="Description"></textarea>
+
+<button onclick="createTeam()">Create Team</button>
+
+</div>
+
+</div>
+
+
+<h2>Available Teams</h2>
+
+<div id="teamList" class="cards"></div>
+
+</div>
+
+</div>
+
+<script src="/js/teams.js"></script>
+<script src="/js/theme.js"></script>
+
+<script>
+
+const savedTheme = localStorage.getItem("theme");
+
+if(savedTheme === "dark"){
+document.body.classList.add("dark-mode");
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Team Workspace</title>
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<h2>Smart Campus</h2>
+
+<button id="themeToggle" class="theme-btn">
+<i class="fa-solid fa-moon"></i> Toggle Theme
+</button>
+
+<a href="dashboard.html">Dashboard</a>
+<a href="resources.html">Resources</a>
+<a href="upload.html">Upload Resource</a>
+<a href="departments.html">Departments</a>
+<a href="students.html">Students</a>
+<a href="assignments.html">Assignments</a>
+<a href="teams.html" class="active">Teams</a>
+<a href="profile.html">Profile</a>
+<a href="#" onclick="logout()">Logout</a>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="main">
+
+<h1 id="teamTitle">Team Workspace</h1>
+
+<!-- TABS -->
+
+<div class="tabs">
+
+<button onclick="openTab('chat')" class="tab-btn">Chat</button>
+<button onclick="openTab('files')" class="tab-btn">Files</button>
+<button onclick="openTab('tasks')" class="tab-btn">Tasks</button>
+<button onclick="openTab('members')" class="tab-btn">Members</button>
+
+</div>
+
+<!-- CHAT -->
+
+<div id="chat" class="tab-content">
+
+<div id="messages" class="chat-box"></div>
+
+<div class="chat-input">
+
+<input id="messageInput" placeholder="Type message...">
+
+<button onclick="sendMessage()">Send</button>
+
+</div>
+
+</div>
+
+
+<!-- FILES -->
+
+<div id="files" class="tab-content" style="display:none">
+
+<h3>Upload File</h3>
+
+<input type="file" id="fileUpload">
+
+<button onclick="uploadFile()">Upload</button>
+
+<div id="fileList"></div>
+
+</div>
+
+
+<!-- TASKS -->
+
+<div id="tasks" class="tab-content" style="display:none">
+
+<h3>Create Task</h3>
+
+<input id="taskText" placeholder="Task description">
+
+<button onclick="createTask()">Add Task</button>
+
+<div id="taskList"></div>
+
+</div>
+
+
+<!-- MEMBERS -->
+
+<div id="members" class="tab-content" style="display:none">
+
+<h3>Team Members</h3>
+
+<input id="memberId" placeholder="Enter student ID">
+
+<button onclick="addMember()">Add Member</button>
+
+<div id="memberList"></div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/teamWorkspace.js"></script>
+<script src="/js/theme.js"></script>
+
+<script>
+
+const savedTheme = localStorage.getItem("theme");
+
+if(savedTheme === "dark"){
+document.body.classList.add("dark-mode");
+}
+
+</script>
+
+</body>
+</html>

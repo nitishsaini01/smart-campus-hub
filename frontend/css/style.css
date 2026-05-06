@@ -1,4 +1,4 @@
-/* ===== GLOBAL RESET ===== */
+/* ================= GLOBAL RESET ================= */
 
 *{
 margin:0;
@@ -7,20 +7,23 @@ box-sizing:border-box;
 font-family:"Segoe UI",Arial,sans-serif;
 }
 
+/* ================= BODY ================= */
+
 body{
+margin:0;
 background:#f1f5f9;
 color:#1e293b;
+transition:background 0.3s,color 0.3s;
 }
 
-
-/* ===== LAYOUT ===== */
+/* ================= LAYOUT ================= */
 
 .container{
 display:flex;
 min-height:100vh;
 }
 
-/* ===== SIDEBAR ===== */
+/* ================= SIDEBAR ================= */
 
 .sidebar{
 width:230px;
@@ -53,7 +56,12 @@ color:white;
 padding-left:14px;
 }
 
-/* ===== MAIN CONTENT ===== */
+.sidebar a.active{
+background:#3b82f6;
+color:white;
+}
+
+/* ================= MAIN CONTENT ================= */
 
 .main{
 flex:1;
@@ -61,7 +69,7 @@ margin-left:230px;
 padding:40px;
 }
 
-/* ===== HEADINGS ===== */
+/* ================= HEADINGS ================= */
 
 h1{
 font-size:30px;
@@ -73,7 +81,7 @@ margin-top:30px;
 margin-bottom:15px;
 }
 
-/* ===== DASHBOARD CARDS ===== */
+/* ================= DASHBOARD CARDS ================= */
 
 .cards{
 display:flex;
@@ -112,36 +120,46 @@ font-size:26px;
 font-weight:bold;
 }
 
-/* ===== TABLE STYLE ===== */
+/* ================= TABLES (BASE) ================= */
 
-.resource-table{
+.resource-table,
+.student-table{
 width:100%;
 border-collapse:collapse;
 margin-top:20px;
 background:white;
 border-radius:10px;
 overflow:hidden;
-box-shadow:0 5px 10px rgba(0,0,0,0.08);
+box-shadow:0 5px 12px rgba(0,0,0,0.08);
 }
 
-.resource-table th{
+/* HEADERS */
+
+.resource-table th,
+.student-table th{
 background:#f8fafc;
 padding:12px;
 text-align:left;
 font-size:14px;
 }
 
-.resource-table td{
+/* CELLS */
+
+.resource-table td,
+.student-table td{
 padding:12px;
-border-top:1px solid #eee;
+border-bottom:1px solid #eee;
 font-size:14px;
 }
 
-.resource-table tr:hover{
-background:#f9fafb;
+/* HOVER */
+
+.resource-table tr:hover,
+.student-table tr:hover{
+background:#f1f5f9;
 }
 
-/* ===== FORMS ===== */
+/* ================= FORMS ================= */
 
 form{
 background:white;
@@ -166,7 +184,7 @@ outline:none;
 border-color:#3b82f6;
 }
 
-/* ===== BUTTON ===== */
+/* ================= BUTTONS ================= */
 
 button{
 padding:10px 18px;
@@ -183,7 +201,7 @@ button:hover{
 background:#2563eb;
 }
 
-/* ===== RESOURCE CARDS ===== */
+/* ================= RESOURCE CARDS ================= */
 
 #resourceList{
 display:grid;
@@ -230,7 +248,7 @@ text-decoration:none;
 background:#2563eb;
 }
 
-/* ===== NAVBAR ===== */
+/* ================= NAVBAR ================= */
 
 .navbar{
 background:#0f172a;
@@ -250,109 +268,14 @@ font-weight:500;
 text-decoration:underline;
 }
 
-/* ===== STUDENT TABLE ===== */
-
-.student-table{
-width:100%;
-border-collapse:collapse;
-margin-top:20px;
-background:white;
-box-shadow:0 5px 12px rgba(0,0,0,0.08);
-}
-
-.student-table th{
-background:#3b82f6;
-color:white;
-padding:12px;
-text-align:left;
-}
-
-.student-table td{
-padding:12px;
-border-bottom:1px solid #eee;
-}
-
-.student-table tr:hover{
-background:#f1f5f9;
-}
-
-.student-table button{
-padding:6px 10px;
-background:#ef4444;
-border:none;
-color:white;
-border-radius:5px;
-cursor:pointer;
-}
-
-.student-table button:hover{
-background:#dc2626;
-}
-
-body{
-font-family: Arial, sans-serif;
-margin:0;
-background:#f3f4f6;
-}
-
-/* Sidebar */
-
-.sidebar{
-width:220px;
-height:100vh;
-background:#111827;
-position:fixed;
-padding-top:20px;
-}
-
-.sidebar h2{
-color:white;
-text-align:center;
-margin-bottom:30px;
-}
-
-.sidebar a{
-display:block;
-color:#d1d5db;
-padding:12px 20px;
-text-decoration:none;
-transition:0.3s;
-}
-
-/* Hover effect */
-
-.sidebar a:hover{
-background:#1f2937;
-color:white;
-}
-
-/* Active page */
-
-.sidebar a.active{
-background:#3b82f6;
-color:white;
-}
-
-/* Main content */
-
-.main{
-margin-left:220px;
-padding:30px;
-}
-
-/* LOGIN PAGE */
-
-body{
-margin:0;
-font-family:"Inter",sans-serif;
-}
+/* ================= LOGIN PAGE ================= */
 
 .login-page{
 display:flex;
 height:100vh;
 }
 
-/* LEFT SIDE */
+/* LEFT */
 
 .login-left{
 flex:1;
@@ -377,7 +300,7 @@ line-height:1.6;
 font-size:16px;
 }
 
-/* RIGHT SIDE */
+/* RIGHT */
 
 .login-right{
 flex:1;
@@ -387,7 +310,7 @@ align-items:center;
 background:#f8fafc;
 }
 
-/* LOGIN BOX */
+/* BOX */
 
 .login-box{
 background:white;
@@ -427,14 +350,7 @@ font-size:15px;
 background:#4338ca;
 }
 
-.login-box a{
-color:#4f46e5;
-text-decoration:none;
-}
-
-.login-box a:hover{
-text-decoration:underline;
-}
+/* ================= NOTIFICATIONS ================= */
 
 #notificationList{
 background:white;
@@ -442,6 +358,7 @@ padding:15px;
 border-radius:10px;
 box-shadow:0 4px 10px rgba(0,0,0,0.08);
 margin-bottom:30px;
+color:#1e293b;
 }
 
 #notificationList li{
@@ -459,38 +376,47 @@ color:#e2e8f0;
 }
 
 /* cards */
-
 .dark-mode .card{
 background:#1e293b;
 color:#e2e8f0;
-box-shadow:0 5px 15px rgba(0,0,0,0.5);
 }
 
-/* tables */
-
-.dark-mode table{
+/* tables FIX (YOUR MAIN ISSUE FIXED HERE) */
+.dark-mode .resource-table,
+.dark-mode .student-table{
 background:#1e293b;
 color:#e2e8f0;
 }
 
-.dark-mode th{
+.dark-mode .resource-table th,
+.dark-mode .student-table th{
 background:#334155;
-color:#e2e8f0;
+color:white;
 }
 
-.dark-mode td{
-border-color:#475569;
+.dark-mode .resource-table td,
+.dark-mode .student-table td{
+background:#1e293b;
+color:#e2e8f0;
+border-bottom:1px solid #334155;
+}
+
+.dark-mode .resource-table tr:hover,
+.dark-mode .student-table tr:hover{
+background:#334155;
 }
 
 /* resources */
-
 .dark-mode .resource{
 background:#1e293b;
 color:#e2e8f0;
 }
 
-/* forms */
+.dark-mode .resource p{
+color:#cbd5f5;
+}
 
+/* forms */
 .dark-mode form{
 background:#1e293b;
 color:#e2e8f0;
@@ -503,21 +429,35 @@ color:white;
 border:1px solid #475569;
 }
 
-/* profile cards */
-
-.dark-mode .profile-card{
-background:#1e293b;
-color:#e2e8f0;
-}
-
 /* navbar */
-
 .dark-mode .navbar{
 background:#020617;
 }
 
-/* toggle button */
+/* notification */
+.dark-mode #notificationList{
+background:#1e293b;
+color:#e2e8f0;
+}
 
+.dark-mode #notificationList li{
+border-bottom:1px solid #475569;
+}
+
+/* chat */
+.dark-mode #chatMessages{
+background:#1e293b;
+color:#e2e8f0;
+border:1px solid #475569;
+}
+
+.dark-mode #chatInput{
+background:#0f172a;
+color:white;
+border:1px solid #475569;
+}
+
+/* toggle button */
 .theme-btn{
 margin-top:10px;
 padding:8px 12px;
@@ -532,4 +472,39 @@ font-size:13px;
 
 .theme-btn:hover{
 background:#2563eb;
+}
+
+.dark-mode .profile-card,
+.dark-mode .info-card,
+.dark-mode .box,
+.dark-mode div.card,
+.dark-mode .card{
+background:#1e293b !important;
+color:#e2e8f0 !important;
+}
+
+.dark-mode *[style*="background: white"],
+.dark-mode *[style*="background-color: white"],
+.dark-mode *[style*="#fff"],
+.dark-mode *[style*="#ffffff"]{
+background:#1e293b !important;
+color:#e2e8f0 !important;
+}
+
+.dark-mode a{
+color:#93c5fd;
+}
+.dark-mode a:visited{
+color:#93c5fd;
+}
+
+.dark-mode a:hover{
+color:#60a5fa;
+text-decoration:underline;
+}
+
+.card input,
+.card textarea{
+margin-top:8px;
+margin-bottom:8px;
 }

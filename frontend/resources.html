@@ -238,6 +238,15 @@ document.getElementById("departmentFilter").addEventListener("change",loadResour
 document.getElementById("semesterFilter").addEventListener("change",loadResources);
 
 </script>
+<script>
+
+const savedTheme = localStorage.getItem("theme");
+
+if(savedTheme === "dark"){
+document.body.classList.add("dark-mode");
+}
+
+</script>
 
 </body>
 </html>

@@ -51,6 +51,14 @@
 </div>
 
 <script src="/js/assignments.js"></script>
+<script>
 
+const savedTheme = localStorage.getItem("theme");
+
+if(savedTheme === "dark"){
+document.body.classList.add("dark-mode");
+}
+
+</script>
 </body>
 </html>

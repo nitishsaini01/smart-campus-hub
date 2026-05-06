@@ -12,6 +12,11 @@ const chatRoutes = require("./routes/chatRoutes");
 const assignmentRoutes = require("./routes/assignmentRoutes");
 const submissionRoutes = require("./routes/submissionRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
+const teamRoutes = require("./routes/teamRoutes");
+const teamTaskRoutes = require("./routes/teamTaskRoutes");
+const teamFileRoutes = require("./routes/teamFileRoutes");
+const teamMessageRoutes = require("./routes/teamMessageRoutes");
+
 
 const pool = require("./config/db");
 
@@ -48,10 +53,15 @@ app.use("/api/students", studentRoutes);
 app.use("/api/departments", departmentRoutes);
 app.use("/api/announcements", announcementRoutes);
 app.use("/api/comments", commentRoutes);
-app.use("/api/chat", chatRoutes);   // 
+app.use("/api/chat", chatRoutes);
 app.use("/api/assignments", assignmentRoutes);
-app.use("/api/submissions", submissionRoutes);  
-app.use("/api/notifications", notificationRoutes); 
+app.use("/api/submissions", submissionRoutes);
+app.use("/api/notifications", notificationRoutes);
+app.use("/api/teams", teamRoutes);
+app.use("/api/team-tasks", teamTaskRoutes);
+app.use("/api/team-files", teamFileRoutes);
+app.use("/api/team-messages", teamMessageRoutes);
+
 
 
 /* ---------- DEFAULT PAGE ---------- */
@@ -79,6 +89,8 @@ io.on("connection", (socket) => {
 
 console.log("🟢 User connected");
 
+/* ===== GLOBAL CAMPUS CHAT ===== */
+
 socket.on("chat message", async (data) => {
 
 try{
@@ -100,6 +112,41 @@ console.log(err);
 }
 
 });
+
+
+/* ===== TEAM CHAT SYSTEM ===== */
+
+socket.on("joinTeam", (teamId)=>{
+
+socket.join("team_"+teamId);
+
+});
+
+
+socket.on("team message", async (data)=>{
+
+try{
+
+const {teamId,userId,sender,message} = data;
+
+const [result] = await pool.query(
+"INSERT INTO team_messages (team_id,user_id,message) VALUES (?,?,?)",
+[teamId,userId,message]
+);
+
+io.to("team_"+teamId).emit("team message",{
+id: result.insertId,
+teamId,
+sender,
+message
+});
+
+}catch(err){
+console.log(err);
+}
+
+});
+
 
 socket.on("disconnect", () => {
 console.log("🔴 User disconnected");

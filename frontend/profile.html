@@ -190,6 +190,14 @@ Delete Account
 </div>
 
 <script src="/js/profile.js"></script>
+<script>
 
+const savedTheme = localStorage.getItem("theme");
+
+if(savedTheme === "dark"){
+document.body.classList.add("dark-mode");
+}
+
+</script>
 </body>
 </html>
