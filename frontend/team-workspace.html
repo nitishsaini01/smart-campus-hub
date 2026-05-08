@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
 <title>Team Workspace</title>
@@ -37,23 +38,47 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 </div>
 
-
 <!-- MAIN -->
 
 <div class="main">
 
+<!-- HEADER -->
+
+<div class="workspace-header">
+
 <h1 id="teamTitle">Team Workspace</h1>
+
+<p>
+Collaborate with your team using chat, tasks, files and members.
+</p>
+
+</div>
 
 <!-- TABS -->
 
 <div class="tabs">
 
-<button onclick="openTab('chat')" class="tab-btn">Chat</button>
-<button onclick="openTab('files')" class="tab-btn">Files</button>
-<button onclick="openTab('tasks')" class="tab-btn">Tasks</button>
-<button onclick="openTab('members')" class="tab-btn">Members</button>
+<button onclick="openTab('chat')" class="tab-btn">
+<i class="fa-solid fa-comments"></i> Chat
+</button>
+
+<button onclick="openTab('files')" class="tab-btn">
+<i class="fa-solid fa-file"></i> Files
+</button>
+
+<button onclick="openTab('tasks')" class="tab-btn">
+<i class="fa-solid fa-list-check"></i> Tasks
+</button>
+
+<button onclick="openTab('members')" class="tab-btn">
+<i class="fa-solid fa-users"></i> Members
+</button>
 
 </div>
+
+<!-- WORKSPACE PANEL -->
+
+<div class="workspace-panel">
 
 <!-- CHAT -->
 
@@ -65,12 +90,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 <input id="messageInput" placeholder="Type message...">
 
-<button onclick="sendMessage()">Send</button>
+<button onclick="sendMessage()">
+<i class="fa-solid fa-paper-plane"></i> Send
+</button>
 
 </div>
 
 </div>
-
 
 <!-- FILES -->
 
@@ -78,9 +104,15 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 <h3>Upload File</h3>
 
+<br>
+
 <input type="file" id="fileUpload">
 
-<button onclick="uploadFile()">Upload</button>
+<button onclick="uploadFile()">
+<i class="fa-solid fa-upload"></i> Upload
+</button>
+
+<br><br>
 
 <div id="fileList"></div>
 
@@ -91,16 +123,32 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 <div id="tasks" class="tab-content" style="display:none">
 
+<div id="taskCreator">
+
 <h3>Create Task</h3>
 
-<input id="taskText" placeholder="Task description">
+<br>
 
-<button onclick="createTask()">Add Task</button>
+<input id="taskTitle" placeholder="Task title">
+
+<textarea id="taskDescription"
+placeholder="Task description"></textarea>
+
+<select id="assignMembers" multiple>
+
+</select>
+
+<button onclick="createTask()">
+<i class="fa-solid fa-plus"></i> Add Task
+</button>
+
+</div>
+
+<br><br>
 
 <div id="taskList"></div>
 
 </div>
-
 
 <!-- MEMBERS -->
 
@@ -108,9 +156,15 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 <h3>Team Members</h3>
 
+<br>
+
 <input id="memberId" placeholder="Enter student ID">
 
-<button onclick="addMember()">Add Member</button>
+<button id="addMemberBtn" onclick="addMember()">
+<i class="fa-solid fa-user-plus"></i> Add Member
+</button>
+
+<br><br>
 
 <div id="memberList"></div>
 
@@ -120,10 +174,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 </div>
 
+</div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/teamWorkspace.js"></script>
-<script src="/js/theme.js"></script>
+
 
 <script>
 

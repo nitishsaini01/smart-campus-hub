@@ -5,28 +5,40 @@ CREATE TEAM
 async function createTeam(){
 
 const name = document.getElementById("teamName").value;
-const description = document.getElementById("teamDesc").value;
+
+const description =
+document.getElementById("teamDesc").value;
 
 if(!name){
+
 alert("Please enter team name");
+
 return;
+
 }
 
 try{
 
-const res = await fetch("http://localhost:3000/api/teams/create",{
+const res = await fetch(
+"http://localhost:3000/api/teams/create",
+{
 method:"POST",
-headers:{ "Content-Type":"application/json" },
+
+headers:{
+"Content-Type":"application/json"
+},
+
 body: JSON.stringify({
 name,
 description,
 created_by: localStorage.getItem("userId")
 })
+
 });
 
 const data = await res.json();
 
-alert(data.message || "Team created successfully");
+alert(data.message);
 
 document.getElementById("teamName").value="";
 document.getElementById("teamDesc").value="";
@@ -34,77 +46,124 @@ document.getElementById("teamDesc").value="";
 loadTeams();
 
 }catch(err){
-console.error(err);
-alert("Error creating team");
-}
+
+console.log(err);
 
 }
 
+}
 
 /* ==============================
-LOAD TEAMS
+LOAD ONLY USER TEAMS
 ============================== */
 
 async function loadTeams(){
 
 try{
 
-const res = await fetch("http://localhost:3000/api/teams");
+const userId = localStorage.getItem("userId");
+
+const res = await fetch(
+`http://localhost:3000/api/teams/${userId}`
+);
 
 const teams = await res.json();
 
-const container = document.getElementById("teamList");
+const container =
+document.getElementById("teamList");
 
 container.innerHTML = "";
 
 if(teams.length === 0){
 
-container.innerHTML = "<p>No teams created yet</p>";
+container.innerHTML =
+"<p>No teams available</p>";
+
 return;
 
 }
 
-teams.forEach(team => {
+teams.forEach(team=>{
 
 container.innerHTML += `
-
 <div class="card">
 
 <i class="fa-solid fa-users"></i>
 
 <h3>${team.name}</h3>
 
-<p>${team.description || "No description"}</p>
+<p>${team.description || ""}</p>
 
 <button onclick="openTeam(${team.id})">
 Open Team
 </button>
 
-</div>
+<br><br>
 
+<button onclick="deleteTeam(${team.id})">
+🗑 Delete Team
+</button>
+
+</div>
 `;
 
 });
 
 }catch(err){
-console.error(err);
-}
+
+console.log(err);
 
 }
 
+}
 
 /* ==============================
-OPEN TEAM WORKSPACE
+OPEN TEAM
 ============================== */
 
-function openTeam(teamId){
+async function openTeam(teamId){
 
-localStorage.setItem("currentTeam", teamId);
+const userId = localStorage.getItem("userId");
 
-window.location.href = "team-workspace.html";
+const res = await fetch(
+`http://localhost:3000/api/teams/check-access/${teamId}/${userId}`
+);
+
+if(res.status !== 200){
+
+alert("Access denied");
+
+return;
 
 }
 
+localStorage.setItem("currentTeam",teamId);
+
+window.location.href =
+"team-workspace.html";
+
+}
+
+/* ==============================
+DELETE TEAM
+============================== */
+
+async function deleteTeam(id){
+
+const confirmDelete =
+confirm("Delete this team?");
+
+if(!confirmDelete) return;
+
+await fetch(
+"http://localhost:3000/api/teams/"+id,
+{
+method:"DELETE"
+});
+
+loadTeams();
+
+}
 
 /* ==============================
 LOGOUT
@@ -114,13 +173,9 @@ function logout(){
 
 localStorage.clear();
 
-window.location.href = "/login.html";
+window.location.href =
+"/login.html";
 
 }
-
-
-/* ==============================
-AUTO LOAD
-============================== */
 
 loadTeams();
