@@ -155,8 +155,10 @@ confirm("Delete this team?");
 
 if(!confirmDelete) return;
 
+const userId = localStorage.getItem("userId");
+
 await fetch(
-"http://localhost:3000/api/teams/"+id,
+`http://localhost:3000/api/teams/${id}/${userId}`,
 {
 method:"DELETE"
 });

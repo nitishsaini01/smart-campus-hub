@@ -363,7 +363,18 @@ if(!confirm("Delete task?")) return;
 
 await fetch(
 "http://localhost:3000/api/team-tasks/"+id,
-{method:"DELETE"}
+{
+method:"DELETE",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+adminId: currentUserId
+})
+
+}
 );
 
 loadTasks();
